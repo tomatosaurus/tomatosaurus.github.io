@@ -125,12 +125,12 @@ const config = {
               {
                 type: 'docSidebar',
                 sidebarId: 'BigtechSidebar',
-                label: 'monthly bigtech'
+                label: 'Monthly BigTech'
               },
               {
                 type: 'docSidebar',
                 sidebarId: 'Y2025Sidebar',
-                label: 'daily 2025'
+                label: 'Daily 2025'
               },
             ]
           },
