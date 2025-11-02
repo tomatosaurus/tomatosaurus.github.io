@@ -10,7 +10,7 @@ import rehypeKatex from 'rehype-katex';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Logic Baron',
+  title: 'Tomatosaurus',
   tagline: 'Math, Information and Machine Learning',
   favicon: '/img/logicbaron_32.ico',
 
@@ -104,7 +104,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/logicbaron_social_card.jpg',
       navbar: {
-        title: 'LogicBaron',
+        title: '토마토사우루스',
         logo: {
           alt: 'EyeStone Logo',
           src: 'img/logicbaron.svg',
@@ -115,7 +115,7 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'CommunitySidebar',
             position: 'left',
-            label: 'Hello, Baron'
+            label: 'Hello, 토마토사우루스'
           },
           {
             type: 'dropdown',
@@ -272,7 +272,7 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Hello, Lapis',
+                label: 'Hello, 토마토사우루스',
                 to: '/docs/community/hello',
               },
             ],
