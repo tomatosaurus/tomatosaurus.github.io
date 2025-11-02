@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://logicbaron.github.io/blog</id>
-    <title>Logic Baron Blog</title>
+    <title>Tomatosaurus Blog</title>
     <updated>2025-10-30T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://logicbaron.github.io/blog"/>
-    <subtitle>Logic Baron Blog</subtitle>
+    <subtitle>Tomatosaurus Blog</subtitle>
     <icon>https://logicbaron.github.io/img/logicbaron_32.ico</icon>
     <rights>Copyright © 2025 Facebook, Inc.</rights>
     <entry>
