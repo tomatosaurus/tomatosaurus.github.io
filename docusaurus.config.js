@@ -112,12 +112,6 @@ const config = {
         style: 'dark',
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'CommunitySidebar',
-            position: 'left',
-            label: 'Hello, 토마토사우루스'
-          },
-          {
             type: 'dropdown',
             label: 'AIPapers',
             position: 'left',
