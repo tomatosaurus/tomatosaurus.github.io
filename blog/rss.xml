@@ -4,11 +4,52 @@
         <title>Tomatosaurus Blog</title>
         <link>https://logicbaron.github.io/blog</link>
         <description>Tomatosaurus Blog</description>
-        <lastBuildDate>Mon, 24 Nov 2025 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 08 Dec 2025 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <copyright>Copyright © 2025 Facebook, Inc.</copyright>
+        <item>
+            <title><![CDATA[웹 서비스를 개발하고 나서 느낀 회고.]]></title>
+            <link>https://logicbaron.github.io/blog/2025/12/08/</link>
+            <guid>https://logicbaron.github.io/blog/2025/12/08/</guid>
+            <pubDate>Mon, 08 Dec 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[0. 일단 API 관련해서]]></description>
+            <content:encoded><![CDATA[<ol start="0">
+<li class="">일단 API 관련해서</li>
+</ol>
+<p>APP_URL, API_URL, NEXT_API_URL</p>
+<p>API_URL 은 서버측 코드에서 사용함. 실제 데이터 베이스나 다른 백엔드 서버와 통신할 떄 사용.
+NEXT_API_URL 은 클라이언트 측에서 서버 컴포넌트나 API route가 내부적으로 호출하는 내부 URL, 백엔드 서버 URL.</p>
+<ol>
+<li class="">로그인 관련 시스템</li>
+</ol>
+<ul>
+<li class="">
+<p>로그인 관련 시스템에서 정말 에러 많이 발생함. 로그인 관련해서 이해한 것들을 간단하게 정리해보자.</p>
+</li>
+<li class="">
+<p>일단 클라이언트가 서버로 로그인 요청을 보냄 : NEXT_API_URL 사용. api.xxxx.com</p>
+</li>
+<li class="">
+<p>서버는 클라이언트에 쿠키를 생성하고, 쿠키를 response 로 클라이언트에 전송함. 이때 서버에서 받아온 쿠키의 도메인 정보는 api.xxx.com</p>
+</li>
+<li class="">
+<p>클라이언트는 해당 정보를 저장.</p>
+</li>
+<li class="">
+<p>이후 클라이언트가 인증 정보가 필요한 페이지에 접속할때 서버에 쿠키 정보를 포함해서 요청을 보냄. api.xxx.com</p>
+</li>
+<li class="">
+<p>대부분 클라이언트는 도메인 주소를 확인하기 떄문에 api.xxx.com 과 xxx.com 이 다르다고 인지한다. 이 때문에 쿠키 허용 url을 .xxx.com 으로 바꿔준다.</p>
+</li>
+</ul>
+<ol start="2">
+<li class="">리버스 프록시 서버 구축</li>
+</ol>
+<p>nginx 를 통해서 리버스 프록시를 구축.</p>
+<p>nginx 서버를 띄우고 내 서버 80번 접속해보면 도메인 이름을 이용해 서버를 열 수 있다.</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[RAG & Milvus 간단 정리]]></title>
             <link>https://logicbaron.github.io/blog/2025/11/24/</link>
@@ -220,7 +261,7 @@ LogitProcessor 처리 관련 로직은, LLM 모델의 최초 generate에서 첫 
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="libevent-빌드">Libevent 빌드<a href="https://logicbaron.github.io/blog/2023/11/09/#libevent-%EB%B9%8C%EB%93%9C" class="hash-link" aria-label="Direct link to Libevent 빌드" title="Direct link to Libevent 빌드" translate="no">​</a></h2>
 <p><a href="https://libevent.org/" target="_blank" rel="noopener noreferrer" class="">https://libevent.org/</a> 사이트에서 libevent 압축 파일 다운로드.</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">$ </span><span class="token function" style="color:#d73a49">tar</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">-xvzf</span><span class="token plain"> libevent-2.0.17-stable.tar.gz</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$ </span><span class="token builtin class-name">cd</span><span class="token plain"> libevent-2.0.17-stable</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$ ./configure </span><span class="token parameter variable" style="color:#36acaa">--prefix</span><span class="token operator" style="color:#393A34">=</span><span class="token environment constant" style="color:#36acaa">$HOME</span><span class="token plain">/tmux/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$ </span><span class="token function" style="color:#d73a49">make</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$ </span><span class="token function" style="color:#d73a49">make</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">install</span><br></span></code></pre></div></div>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="ncurses-빌드">ncurses 빌드<a href="https://logicbaron.github.io/blog/2023/11/09/#ncurses-%EB%B9%8C%EB%93%9C" class="hash-link" aria-label="Direct link to ncurses 빌드" title="Direct link to ncurses 빌드" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="ncurses-빌��드">ncurses 빌드<a href="https://logicbaron.github.io/blog/2023/11/09/#ncurses-%EB%B9%8C%EB%93%9C" class="hash-link" aria-label="Direct link to ncurses 빌드" title="Direct link to ncurses 빌드" translate="no">​</a></h2>
 <p><a href="https://invisible-island.net/ncurses/announce.html" target="_blank" rel="noopener noreferrer" class="">ncurses</a> 다운로드 페이지 에서 stable 다운로드.</p>
 <ul>
 <li class="">다운로드 페이지 : <a href="https://ftp.gnu.org/pub/gnu/ncurses/" target="_blank" rel="noopener noreferrer" class="">https://ftp.gnu.org/pub/gnu/ncurses/</a></li>
