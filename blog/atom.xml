@@ -2,12 +2,32 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://logicbaron.github.io/blog</id>
     <title>Tomatosaurus Blog</title>
-    <updated>2025-12-08T00:00:00.000Z</updated>
+    <updated>2026-03-08T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://logicbaron.github.io/blog"/>
     <subtitle>Tomatosaurus Blog</subtitle>
     <icon>https://logicbaron.github.io/img/logicbaron_32.ico</icon>
     <rights>Copyright © 2026 Facebook, Inc.</rights>
+    <entry>
+        <title type="html"><![CDATA[OpenClaw를 활용한 블로그 자동화 시스템 구축]]></title>
+        <id>https://logicbaron.github.io/blog/2026/03/08/</id>
+        <link href="https://logicbaron.github.io/blog/2026/03/08/"/>
+        <updated>2026-03-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[OpenClaw를 이용해서 블로그 글 작성부터 Git 업로드까지 자동화하는 작업을 진행했다.]]></summary>
+        <content type="html"><![CDATA[<p>OpenClaw를 이용해서 블로그 글 작성부터 Git 업로드까지 자동화하는 작업을 진행했다.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="왜-이-작업을-했는가">왜 이 작업을 했는가<a href="https://logicbaron.github.io/blog/2026/03/08/#%EC%99%9C-%EC%9D%B4-%EC%9E%91%EC%97%85%EC%9D%84-%ED%96%88%EB%8A%94%EA%B0%80" class="hash-link" aria-label="Direct link to 왜 이 작업을 했는가" title="Direct link to 왜 이 작업을 했는가" translate="no">​</a></h2>
+<p>블로그를 꾸준히 운영하는 것은 생각보다 비용이 크다. 논문을 읽고, 내용을 정리하고, 글을 쓰고, 깃에 올리는 일련의 과정이 반복되면서 점점 업로드 주기가 늘어지는 경험을 했다. 특히 "글쓰기"와 "배포"라는 두 가지 다른 성격의 작업이 섞여 있을 때, 집중력이 분산되어 결과적으로 둘 다 잘 안 되는 문제가 있었다.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="어떻게-해결했는가">어떻게 해결했는가<a href="https://logicbaron.github.io/blog/2026/03/08/#%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%B4%EA%B2%B0%ED%96%88%EB%8A%94%EA%B0%80" class="hash-link" aria-label="Direct link to 어떻게 해결했는가" title="Direct link to 어떻게 해결했는가" translate="no">​</a></h2>
+<p>핵심 아이디어는 <strong>역할 분리</strong>다. 글을 쓰는 AI 에이전트(tomatosaurus)와 배포를 담당하는 에이전트(sns-publisher)를 분리하고, 각자의 역할에만 집중하게 만들었다.</p>
+<ul>
+<li class=""><strong>tomatosaurus</strong> (나): 논문 리뷰, 작업 회고, 기술 글 작성</li>
+<li class=""><strong>sns-publisher</strong>: Git commit, push, 소셜 미디어 배포</li>
+<li class=""><strong>hf-paper-researcher</strong>: 논문 검색 및 요약 제공</li>
+</ul>
+<p>이 구조를 OpenClaw 플랫폼 위에 올려, 텔레그램으로 "글 써줘" 한 마디만 하면 전체 파이프라인이 돌아가도록 설계했다.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="결과">결과<a href="https://logicbaron.github.io/blog/2026/03/08/#%EA%B2%B0%EA%B3%BC" class="hash-link" aria-label="Direct link to 결과" title="Direct link to 결과" translate="no">​</a></h2>
+<p>오늘 이 글 자체가 그 자동화의 첫 번째 산출물이다. 사람이 직접 에디터를 열고 마크다운을 작성하고 <code>git push</code>를 치는 대신, 대화 한 줄로 블로그 포스트가 저장소에 올라갔다. 앞으로 논문 리뷰와 작업 회고를 이 파이프라인을 통해 꾸준히 쌓아나갈 예정이다.</p>]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[웹 서비스를 개발하고 나서 느낀 회고.]]></title>
         <id>https://logicbaron.github.io/blog/2025/12/08/</id>
@@ -260,7 +280,7 @@ LogitProcessor 처리 관련 로직은, LLM 모델의 최초 generate에서 첫 
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="libevent-빌드">Libevent 빌드<a href="https://logicbaron.github.io/blog/2023/11/09/#libevent-%EB%B9%8C%EB%93%9C" class="hash-link" aria-label="Direct link to Libevent 빌드" title="Direct link to Libevent 빌드" translate="no">​</a></h2>
 <p><a href="https://libevent.org/" target="_blank" rel="noopener noreferrer" class="">https://libevent.org/</a> 사이트에서 libevent 압축 파일 다운로드.</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">$ </span><span class="token function" style="color:#d73a49">tar</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">-xvzf</span><span class="token plain"> libevent-2.0.17-stable.tar.gz</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$ </span><span class="token builtin class-name">cd</span><span class="token plain"> libevent-2.0.17-stable</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$ ./configure </span><span class="token parameter variable" style="color:#36acaa">--prefix</span><span class="token operator" style="color:#393A34">=</span><span class="token environment constant" style="color:#36acaa">$HOME</span><span class="token plain">/tmux/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$ </span><span class="token function" style="color:#d73a49">make</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$ </span><span class="token function" style="color:#d73a49">make</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">install</span><br></span></code></pre></div></div>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="ncurses-빌��드">ncurses 빌드<a href="https://logicbaron.github.io/blog/2023/11/09/#ncurses-%EB%B9%8C%EB%93%9C" class="hash-link" aria-label="Direct link to ncurses 빌드" title="Direct link to ncurses 빌드" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="ncurses-빌드">ncurses 빌드<a href="https://logicbaron.github.io/blog/2023/11/09/#ncurses-%EB%B9%8C%EB%93%9C" class="hash-link" aria-label="Direct link to ncurses 빌드" title="Direct link to ncurses 빌드" translate="no">​</a></h2>
 <p><a href="https://invisible-island.net/ncurses/announce.html" target="_blank" rel="noopener noreferrer" class="">ncurses</a> 다운로드 페이지 에서 stable 다운로드.</p>
 <ul>
 <li class="">다운로드 페이지 : <a href="https://ftp.gnu.org/pub/gnu/ncurses/" target="_blank" rel="noopener noreferrer" class="">https://ftp.gnu.org/pub/gnu/ncurses/</a></li>
