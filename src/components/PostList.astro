@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import CategoryTrail from './CategoryTrail.astro';
 import FormattedDate from './FormattedDate.astro';
 import TagList from './TagList.astro';
 
@@ -14,10 +15,12 @@ const { posts } = Astro.props;
 	{
 		posts.map((post) => (
 			<li>
-				<p class="date">
+				<div class="meta">
+					<CategoryTrail path={post.data.category} />
+					<span class="dot">·</span>
 					<FormattedDate date={post.data.pubDate} />
 					{post.data.draft && <span class="draft">draft</span>}
-				</p>
+				</div>
 				<h3>
 					<a href={`/blog/${post.id}/`}>{post.data.title}</a>
 				</h3>
@@ -49,12 +52,15 @@ const { posts } = Astro.props;
 	h3 a:hover {
 		color: var(--accent);
 	}
-	.date,
+	.meta,
 	.description {
 		margin: 0;
 		color: rgb(var(--gray));
 	}
-	.date {
+	.meta {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5em;
 		font-size: 0.9em;
 	}
 	.draft {

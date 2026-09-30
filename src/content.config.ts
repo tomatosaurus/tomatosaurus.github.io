@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { CATEGORY_LIST, getCategory } from './categories';
 
 const blog = defineCollection({
 	// Load Markdown and MDX files in the `src/content/blog/` directory.
@@ -14,6 +15,9 @@ const blog = defineCollection({
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
+			category: z.string().refine((path) => getCategory(path), {
+				message: `Unknown category. Define it in src/categories.ts. Valid: ${CATEGORY_LIST.map((c) => c.path).join(', ')}`,
+			}),
 			tags: z.array(z.string()).default([]),
 			draft: z.boolean().default(false),
 		}),

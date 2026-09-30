@@ -1,0 +1,85 @@
+---
+import { CATEGORY_LIST, inCategory } from '../categories';
+import { getPosts } from '../lib/posts';
+
+interface Props {
+	// Category path of the current page/post, used for highlighting
+	current?: string;
+}
+
+const { current } = Astro.props;
+const posts = await getPosts();
+const count = (path: string) => posts.filter((p) => inCategory(p.data.category, path)).length;
+---
+
+<nav class="category-nav" aria-label="Categories">
+	<h2>Categories</h2>
+	<ul>
+		<li>
+			<a href="/blog/" class:list={{ active: Astro.url.pathname === '/blog/' }}>
+				All posts <span class="count">{posts.length}</span>
+			</a>
+		</li>
+		{
+			CATEGORY_LIST.map((c) => (
+				<li style={`--depth: ${c.depth}`}>
+					<a
+						href={`/category/${c.path}/`}
+						class:list={{
+							active: current === c.path,
+							open: current !== undefined && inCategory(current, c.path),
+							top: c.depth === 0,
+						}}
+					>
+						{c.label} <span class="count">{count(c.path)}</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</nav>
+<style>
+	h2 {
+		margin: 0 0 0.5em;
+		color: rgb(var(--gray));
+		font-size: 0.8em;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	li {
+		padding-left: calc(var(--depth, 0) * 1em);
+	}
+	a {
+		display: flex;
+		justify-content: space-between;
+		gap: 0.75em;
+		padding: 0.25em 0.5em;
+		border-radius: 6px;
+		color: rgb(var(--gray-dark));
+		font-size: 0.95em;
+		text-decoration: none;
+	}
+	a.top {
+		margin-top: 0.4em;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+	a:hover,
+	a.open {
+		color: var(--accent);
+	}
+	a.active {
+		background: color-mix(in srgb, var(--accent) 10%, transparent);
+		color: var(--accent);
+	}
+	.count {
+		color: rgb(var(--gray));
+		font-weight: 400;
+	}
+</style>

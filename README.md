@@ -18,13 +18,32 @@ npm run build        # dist/ 에 정적 빌드
 | 경로 | 역할 |
 | --- | --- |
 | `src/consts.ts` | **사이트 URL, 제목, 작성자, Giscus 설정** — 가장 먼저 수정 |
-| `src/content/blog/*.md(x)` | 글 (frontmatter: `title`, `description`, `pubDate`, `updatedDate?`, `heroImage?`, `tags`, `draft`) |
+| `src/categories.ts` | **계층형 카테고리 트리** (사이드바·카테고리 페이지·Tina 선택지에 반영) |
+| `src/content/blog/*.md(x)` | 글 (frontmatter: `title`, `description`, `pubDate`, `updatedDate?`, `heroImage?`, `category`, `tags`, `draft`) |
 | `src/content.config.ts` | 글 frontmatter 스키마 (`tina/config.ts`와 같이 유지) |
 | `src/components/BaseHead.astro` | canonical, OG/Twitter, `BlogPosting` JSON-LD |
 | `src/components/Giscus.astro` | 댓글 |
 | `src/pages/rss.xml.ts` | 본문 전체 포함 RSS (Dev.to 가져오기용) |
 | `tina/config.ts` | TinaCMS 에디터 스키마 |
 | `.github/workflows/deploy.yml` | `main` 푸시 시 GitHub Pages 자동 배포 |
+
+## 카테고리
+
+`src/categories.ts`에서 관리합니다. 하위 카테고리는 `children`에 추가하면 되고 깊이 제한은 없습니다.
+
+```ts
+{
+	slug: 'study',
+	label: 'Study',
+	children: [
+		{ slug: 'ml', label: 'Machine Learning' },
+		{ slug: 'cloud', label: 'Cloud', children: [{ slug: 'aws', label: 'AWS' }] },
+	],
+},
+```
+
+글에는 경로로 지정합니다: `category: study/ml`. 정의되지 않은 경로를 쓰면 빌드가 실패하며 사용 가능한 값 목록을 보여줍니다.
+상위 카테고리 페이지(`/category/study/`)와 사이드바 숫자는 하위 카테고리 글까지 포함합니다. 카테고리를 옮겨도 글 URL(`/blog/<slug>/`)은 바뀌지 않습니다.
 
 ## 배포 셋업 (1회)
 

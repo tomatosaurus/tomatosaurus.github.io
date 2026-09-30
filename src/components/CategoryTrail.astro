@@ -1,0 +1,40 @@
+---
+import { getCategory } from '../categories';
+
+interface Props {
+	path: string;
+}
+
+const category = getCategory(Astro.props.path);
+---
+
+{
+	category && (
+		<nav class="trail" aria-label="Category">
+			{category.trail.map((c, i) => (
+				<>
+					{i > 0 && <span class="sep">›</span>}
+					<a href={`/category/${c.path}/`}>{c.label}</a>
+				</>
+			))}
+		</nav>
+	)
+}
+<style>
+	.trail {
+		font-size: 0.85em;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+	.trail a {
+		color: var(--accent);
+		text-decoration: none;
+	}
+	.trail a:hover {
+		text-decoration: underline;
+	}
+	.sep {
+		margin: 0 0.4em;
+		color: rgb(var(--gray));
+	}
+</style>

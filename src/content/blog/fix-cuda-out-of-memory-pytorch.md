@@ -2,6 +2,7 @@
 title: 'Fixing "CUDA out of memory" in PyTorch When nvidia-smi Shows Free Memory'
 description: 'Why PyTorch raises CUDA OOM even though the GPU looks half empty, and a checklist to fix it: fragmentation, cached allocator, and leaked references.'
 pubDate: 2026-09-30
+category: engineering
 tags: ['pytorch', 'cuda', 'machine-learning', 'troubleshooting']
 ---
 

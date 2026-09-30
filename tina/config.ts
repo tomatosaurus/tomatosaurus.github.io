@@ -1,4 +1,5 @@
 import { defineConfig } from 'tinacms';
+import { CATEGORY_LIST } from '../src/categories';
 
 // Tina Cloud credentials (free plan) — https://app.tina.io
 // Local editing (`npm run dev` → http://localhost:4321/admin/) works without them.
@@ -53,6 +54,17 @@ export default defineConfig({
 					},
 					{ type: 'datetime', name: 'pubDate', label: 'Publish date', required: true },
 					{ type: 'datetime', name: 'updatedDate', label: 'Updated date' },
+					{
+						type: 'string',
+						name: 'category',
+						label: 'Category',
+						required: true,
+						// Edit src/categories.ts to add categories
+						options: CATEGORY_LIST.map((c) => ({
+							value: c.path,
+							label: c.trail.map((t) => t.label).join(' / '),
+						})),
+					},
 					{ type: 'string', name: 'tags', label: 'Tags', list: true },
 					{ type: 'boolean', name: 'draft', label: 'Draft (hidden in production)' },
 					{ type: 'rich-text', name: 'body', label: 'Body', isBody: true },
