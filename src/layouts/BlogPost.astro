@@ -1,36 +1,29 @@
 ---
 import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
+import { tabOf } from '../categories';
 import CategoryTrail from '../components/CategoryTrail.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Giscus from '../components/Giscus.astro';
 import TagList from '../components/TagList.astro';
+import type { Post } from '../lib/posts';
 import Page from './Page.astro';
 
-type Props = Pick<CollectionEntry<'blog'>['data'], 'title' | 'description' | 'heroImage'> &
-	Partial<Pick<CollectionEntry<'blog'>['data'], 'pubDate' | 'updatedDate' | 'category' | 'tags'>> & {
-		// Posts get article SEO metadata and comments; static pages like About don't
-		isPost?: boolean;
-	};
+type Props = Post['data'] & {
+	// All posts in this post's tab, for the sidebar
+	tabPosts: Post[];
+};
 
-const {
-	title,
-	description,
-	pubDate,
-	updatedDate,
-	heroImage,
-	category,
-	tags = [],
-	isPost = false,
-} = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, category, tags, tabPosts } =
+	Astro.props;
+const tab = tabOf(category);
 ---
 
 <Page
 	title={title}
 	description={description}
 	image={heroImage}
-	article={isPost && pubDate ? { pubDate, updatedDate, tags } : undefined}
-	currentCategory={category}
+	article={{ pubDate, updatedDate, tags }}
+	sidebar={{ tab, currentCategory: category, tabPosts }}
 >
 	<article>
 		{
@@ -41,27 +34,25 @@ const {
 			)
 		}
 		<div class="title">
-			{category && <CategoryTrail path={category} />}
+			<CategoryTrail path={category} />
 			<h1>{title}</h1>
-			{
-				isPost && pubDate && (
-					<div class="date">
-						<FormattedDate date={pubDate} />
-						{updatedDate && (
-							<span class="last-updated-on">
-								· Updated <FormattedDate date={updatedDate} />
-							</span>
-						)}
-					</div>
-				)
-			}
-			<TagList tags={tags} />
+			<div class="date">
+				<FormattedDate date={pubDate} />
+				{
+					updatedDate && (
+						<span class="last-updated-on">
+							· Updated <FormattedDate date={updatedDate} />
+						</span>
+					)
+				}
+			</div>
+			<TagList tab={tab} tags={tags} />
 			<hr />
 		</div>
 		<div class="prose">
 			<slot />
 		</div>
-		{isPost && <Giscus />}
+		<Giscus />
 	</article>
 </Page>
 <style>

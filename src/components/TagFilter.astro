@@ -1,0 +1,137 @@
+---
+import { type Post, tagSlug, tagUrl } from '../lib/posts';
+
+interface Props {
+	tab: string;
+	// Posts in scope (the tab, or the current category)
+	posts: Post[];
+}
+
+const { tab, posts } = Astro.props;
+const counts = new Map<string, number>();
+for (const post of posts) {
+	for (const tag of post.data.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1);
+}
+const tags = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+---
+
+<nav class="tag-filter" aria-label="Tags" data-tag-filter>
+	<h2>
+		Tags
+		<button type="button" class="clear" data-tag-clear hidden>clear</button>
+	</h2>
+	{tags.length === 0 && <p class="none">No tags yet.</p>}
+	<ul>
+		{
+			tags.map(([tag, count]) => (
+				<li>
+					<a href={tagUrl(tab, tag)} data-tag={tagSlug(tag)}>
+						#{tag} <span class="count">{count}</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</nav>
+
+<script>
+	// On listing pages, tag chips filter the post list in place (multi-select,
+	// posts must have every selected tag) and keep ?tag=a,b in the URL.
+	// Elsewhere (post pages) they are plain links to the tab's filtered list.
+	const list = document.querySelector<HTMLElement>('[data-post-list]');
+	const chips = document.querySelectorAll<HTMLAnchorElement>('[data-tag-filter] a[data-tag]');
+	const clear = document.querySelector<HTMLButtonElement>('[data-tag-clear]');
+	const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
+
+	if (list) {
+		const items = list.querySelectorAll<HTMLElement>('li[data-tags]');
+		const param = new URL(location.href).searchParams.get('tag') ?? '';
+		const selected = new Set(param.split(',').filter(Boolean));
+
+		const apply = () => {
+			let shown = 0;
+			for (const item of items) {
+				const tags = item.dataset.tags!.split(' ');
+				item.hidden = ![...selected].every((t) => tags.includes(t));
+				if (!item.hidden) shown++;
+			}
+			for (const chip of chips) chip.classList.toggle('selected', selected.has(chip.dataset.tag!));
+			if (clear) clear.hidden = selected.size === 0;
+			if (empty) empty.hidden = shown > 0;
+
+			const url = new URL(location.href);
+			if (selected.size) url.searchParams.set('tag', [...selected].join(','));
+			else url.searchParams.delete('tag');
+			history.replaceState(null, '', url);
+		};
+
+		for (const chip of chips) {
+			chip.addEventListener('click', (e) => {
+				e.preventDefault();
+				const tag = chip.dataset.tag!;
+				if (!selected.delete(tag)) selected.add(tag);
+				apply();
+			});
+		}
+		clear?.addEventListener('click', () => {
+			selected.clear();
+			apply();
+		});
+		apply();
+	}
+</script>
+
+<style>
+	h2 {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+	}
+	.clear {
+		border: none;
+		background: none;
+		color: var(--accent);
+		font: inherit;
+		letter-spacing: normal;
+		text-transform: none;
+		cursor: pointer;
+	}
+	.clear[hidden] {
+		display: none;
+	}
+	ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4em;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	a {
+		display: inline-block;
+		padding: 0.15em 0.6em;
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		color: var(--accent);
+		font-size: 0.85em;
+		text-decoration: none;
+	}
+	a:hover {
+		background: color-mix(in srgb, var(--accent) 16%, transparent);
+	}
+	a.selected {
+		background: var(--accent);
+		color: white;
+	}
+	a.selected .count {
+		color: rgba(255, 255, 255, 80%);
+	}
+	.count {
+		color: rgb(var(--gray));
+	}
+	.none {
+		margin: 0;
+		color: rgb(var(--gray));
+		font-size: 0.9em;
+	}
+</style>

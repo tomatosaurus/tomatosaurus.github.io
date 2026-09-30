@@ -1,0 +1,15 @@
+---
+import { AUTHOR_GITHUB, AUTHOR_NAME } from '../consts';
+import Page from '../layouts/Page.astro';
+---
+
+<Page title="Contact" description={`Get in touch with ${AUTHOR_NAME}.`}>
+	<h1>Contact</h1>
+	<p>
+		Hi, I'm {AUTHOR_NAME}. I write about production troubleshooting, machine learning systems and
+		cloud infrastructure.
+	</p>
+	<ul>
+		<li>GitHub: <a href={AUTHOR_GITHUB}>{AUTHOR_GITHUB.replace('https://', '')}</a></li>
+	</ul>
+</Page>

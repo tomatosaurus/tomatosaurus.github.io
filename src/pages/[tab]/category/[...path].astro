@@ -1,0 +1,30 @@
+---
+import { CATEGORY_LIST, type FlatCategory, inCategory, tabOf } from '../../../categories';
+import CategoryTrail from '../../../components/CategoryTrail.astro';
+import PostList from '../../../components/PostList.astro';
+import Page from '../../../layouts/Page.astro';
+import { getPosts } from '../../../lib/posts';
+
+export function getStaticPaths() {
+	// Every category below a tab gets a page, even before it has posts
+	return CATEGORY_LIST.filter((c) => c.depth > 0).map((category) => {
+		const [tab, ...rest] = category.path.split('/');
+		return { params: { tab, path: rest.join('/') }, props: { category } };
+	});
+}
+
+const { category } = Astro.props as { category: FlatCategory };
+const tab = tabOf(category.path);
+const tabPosts = (await getPosts()).filter((p) => inCategory(p.data.category, tab));
+const posts = tabPosts.filter((p) => inCategory(p.data.category, category.path));
+---
+
+<Page
+	title={category.trail.map((c) => c.label).join(' / ')}
+	description={`Posts in ${category.label}.`}
+	sidebar={{ tab, currentCategory: category.path, tabPosts, scopePosts: posts }}
+>
+	<CategoryTrail path={category.path} />
+	<h1>{category.label}</h1>
+	<PostList posts={posts} />
+</Page>

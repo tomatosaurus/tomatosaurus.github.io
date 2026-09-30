@@ -24,9 +24,9 @@ export default defineConfig({
 	schema: {
 		collections: [
 			{
-				name: 'blog',
-				label: 'Blog Posts',
-				path: 'src/content/blog',
+				name: 'posts',
+				label: 'Posts',
+				path: 'src/content/posts',
 				format: 'md',
 				ui: {
 					filename: {
@@ -59,7 +59,7 @@ export default defineConfig({
 						name: 'category',
 						label: 'Category',
 						required: true,
-						// Edit src/categories.ts to add categories
+						// Tab / category. Edit src/categories.ts to add categories
 						options: CATEGORY_LIST.map((c) => ({
 							value: c.path,
 							label: c.trail.map((t) => t.label).join(' / '),

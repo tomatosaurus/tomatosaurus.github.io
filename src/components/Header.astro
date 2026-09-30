@@ -1,70 +1,60 @@
 ---
-import { AUTHOR_DEVTO, AUTHOR_GITHUB, SITE_TITLE } from '../consts';
+import { CATEGORIES } from '../categories';
+import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
 <header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
-			<HeaderLink href="/blog/">Blog</HeaderLink>
-			<HeaderLink href="/tags/">Tags</HeaderLink>
-			<HeaderLink href="/about/">About</HeaderLink>
+	<nav class="container">
+		<a class="site-title" href="/">{SITE_TITLE}</a>
+		<div class="tabs">
+			{CATEGORIES.map((tab) => <HeaderLink href={`/${tab.slug}/`}>{tab.label}</HeaderLink>)}
+			<HeaderLink href="/contact/">Contact</HeaderLink>
 		</div>
-		<div class="social-links">
-		<a href={AUTHOR_GITHUB} target="_blank" rel="noopener">
-			<span class="sr-only">GitHub</span>
-			<svg viewBox="0 0 16 16" aria-hidden="true" width="28" height="28"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
-		</a>
-		<a href={AUTHOR_DEVTO} target="_blank" rel="noopener">
-			<span class="sr-only">DEV Community</span>
-			<svg viewBox="0 0 24 24" aria-hidden="true" width="28" height="28"><path fill="currentColor" d="M7.42 10.05c-.18-.16-.46-.23-.84-.23H6l.02 2.44.04 2.45.56-.02c.41 0 .63-.07.83-.26.24-.24.26-.36.26-2.2 0-1.91-.02-1.96-.29-2.18zM0 4.94v14.12h24V4.94H0zM8.56 15.3c-.44.58-1.06.77-2.53.77H4.71V8.53h1.4c1.67 0 2.16.18 2.6.9.27.43.29.6.32 2.57.05 2.23-.02 2.73-.47 3.3zm5.09-5.47h-2.47v1.77h1.52v1.28l-.72.04-.75.03v1.77l1.22.03 1.2.04v1.28h-1.6c-1.53 0-1.6-.01-1.87-.3l-.3-.28v-3.16c0-3.02.01-3.18.25-3.48.23-.31.25-.31 1.88-.31h1.64v1.3zm4.68 5.45c-.17.43-.64.79-1 .79-.18 0-.45-.15-.67-.39-.32-.32-.45-.63-.82-2.08l-.9-3.39-.45-1.67h.76c.4 0 .75.02.75.05 0 .06 1.16 4.54 1.26 4.83.04.15.32-.7.73-2.3l.66-2.52.74-.04c.4-.02.73 0 .73.04 0 .14-1.67 6.38-1.8 6.68z"></path></svg>
-		</a>
-		<a href="/rss.xml">
-			<span class="sr-only">RSS feed</span>
-			<svg viewBox="0 0 16 16" aria-hidden="true" width="28" height="28"><path fill="currentColor" d="M2 1.5a.5.5 0 0 1 .5-.5C9.404 1 15 6.596 15 13.5a.5.5 0 0 1-1 0C14 7.149 8.851 2 2.5 2a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5c4.694 0 8.5 3.806 8.5 8.5a.5.5 0 0 1-1 0A7.5 7.5 0 0 0 2.5 6a.5.5 0 0 1-.5-.5zM3.5 14a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path></svg>
-		</a>
-	</div>
 	</nav>
 </header>
 <style>
 	header {
-		margin: 0;
-		padding: 0 1em;
 		background: white;
 		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
-
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
 	}
 	nav {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: 1em;
 	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
+	.site-title {
+		padding: 1em 0;
+		color: rgb(var(--black));
+		font-weight: 700;
 		text-decoration: none;
+		white-space: nowrap;
 	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
-	}
-	.social-links,
-	.social-links a {
+	.tabs {
 		display: flex;
+		gap: 1.25em;
 	}
-	@media (max-width: 720px) {
-		.social-links {
-			display: none;
+	.tabs :global(a) {
+		padding: 1.1em 0;
+		border-bottom: 3px solid transparent;
+		color: rgb(var(--gray-dark));
+		font-size: 0.8em;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+	.tabs :global(a:hover) {
+		color: var(--accent);
+	}
+	.tabs :global(a.active) {
+		border-bottom-color: var(--accent);
+		color: var(--accent);
+	}
+	@media (max-width: 480px) {
+		.tabs {
+			gap: 0.9em;
 		}
 	}
 </style>

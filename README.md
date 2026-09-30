@@ -18,32 +18,32 @@ npm run build        # dist/ 에 정적 빌드
 | 경로 | 역할 |
 | --- | --- |
 | `src/consts.ts` | **사이트 URL, 제목, 작성자, Giscus 설정** — 가장 먼저 수정 |
-| `src/categories.ts` | **계층형 카테고리 트리** (사이드바·카테고리 페이지·Tina 선택지에 반영) |
-| `src/content/blog/*.md(x)` | 글 (frontmatter: `title`, `description`, `pubDate`, `updatedDate?`, `heroImage?`, `category`, `tags`, `draft`) |
+| `src/categories.ts` | **상단 탭 + 탭별 계층형 카테고리** (헤더·사이드바·카테고리 페이지·Tina 선택지에 반영) |
+| `src/content/posts/*.md(x)` | 글 (frontmatter: `title`, `description`, `pubDate`, `updatedDate?`, `heroImage?`, `category`, `tags`, `draft`) |
 | `src/content.config.ts` | 글 frontmatter 스키마 (`tina/config.ts`와 같이 유지) |
 | `src/components/BaseHead.astro` | canonical, OG/Twitter, `BlogPosting` JSON-LD |
 | `src/components/Giscus.astro` | 댓글 |
-| `src/pages/rss.xml.ts` | 본문 전체 포함 RSS (Dev.to 가져오기용) |
+| `src/pages/rss.xml.ts` | 본문 전체 포함 RSS (Dev.to 가져오기용, 화면에는 링크 없음) |
 | `tina/config.ts` | TinaCMS 에디터 스키마 |
 | `.github/workflows/deploy.yml` | `main` 푸시 시 GitHub Pages 자동 배포 |
 
-## 카테고리
+## 탭 · 카테고리 · 태그
 
-`src/categories.ts`에서 관리합니다. 하위 카테고리는 `children`에 추가하면 되고 깊이 제한은 없습니다.
+`src/categories.ts`의 최상위 항목이 **상단 탭**(ENGINEERING, BLOG)이고, 그 아래 `children`이 탭별 카테고리입니다. 깊이 제한은 없습니다. CONTACT 탭은 `src/pages/contact.astro`입니다.
 
 ```ts
 {
-	slug: 'study',
-	label: 'Study',
+	slug: 'engineering',
+	label: 'Engineering',
 	children: [
-		{ slug: 'ml', label: 'Machine Learning' },
-		{ slug: 'cloud', label: 'Cloud', children: [{ slug: 'aws', label: 'AWS' }] },
+		{ slug: 'ml', label: 'Machine Learning', children: [{ slug: 'llm', label: 'LLM' }] },
 	],
 },
 ```
 
-글에는 경로로 지정합니다: `category: study/ml`. 정의되지 않은 경로를 쓰면 빌드가 실패하며 사용 가능한 값 목록을 보여줍니다.
-상위 카테고리 페이지(`/category/study/`)와 사이드바 숫자는 하위 카테고리 글까지 포함합니다. 카테고리를 옮겨도 글 URL(`/blog/<slug>/`)은 바뀌지 않습니다.
+- 글에는 경로로 지정: `category: engineering`(탭 바로 아래) 또는 `category: engineering/ml/llm`. 정의 안 된 경로면 빌드가 실패하며 가능한 값을 보여줍니다.
+- URL: 탭 `/engineering/`, 카테고리 `/engineering/category/ml/`, 글 `/engineering/<파일명>/`
+- 탭·카테고리·글 페이지의 왼쪽 사이드바에 ① 해당 탭의 카테고리 트리 ② 태그 필터가 표시됩니다. 태그는 여러 개 선택 가능하며 선택한 태그를 **모두** 가진 글만 보여줍니다 (`?tag=aws,cuda`).
 
 ## 배포 셋업 (1회)
 
@@ -81,7 +81,7 @@ npm run build        # dist/ 에 정적 빌드
 ## Dev.to 크로스포스팅 (POSSE)
 
 - **자동**: Dev.to → Settings → Extensions → *Publishing to DEV Community from RSS*에 `https://<내 도메인>/rss.xml` 입력, **"Mark the RSS source as canonical URL by default"** 체크. 가져온 글은 Dev.to에 초안으로 들어오니 검토 후 발행하세요.
-- **수동**: 글 복사 후 Dev.to frontmatter에 `canonical_url: https://<내 도메인>/blog/<slug>/` 지정.
+- **수동**: 글 복사 후 Dev.to frontmatter에 `canonical_url: https://<내 도메인>/<탭>/<slug>/` 지정.
 - RSS 본문의 `/uploads/...` 같은 상대 링크·이미지는 자동으로 절대 URL로 바뀌어 Dev.to에서도 깨지지 않습니다.
 
 ## SEO 체크리스트

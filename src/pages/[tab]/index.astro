@@ -1,0 +1,23 @@
+---
+import { CATEGORIES, type Category, inCategory } from '../../categories';
+import PostList from '../../components/PostList.astro';
+import { SITE_DESCRIPTION } from '../../consts';
+import Page from '../../layouts/Page.astro';
+import { getPosts } from '../../lib/posts';
+
+export function getStaticPaths() {
+	return CATEGORIES.map((tab) => ({ params: { tab: tab.slug }, props: { tab } }));
+}
+
+const { tab } = Astro.props as { tab: Category };
+const posts = (await getPosts()).filter((p) => inCategory(p.data.category, tab.slug));
+---
+
+<Page
+	title={tab.label}
+	description={SITE_DESCRIPTION}
+	sidebar={{ tab: tab.slug, currentCategory: tab.slug, tabPosts: posts }}
+>
+	<h1>{tab.label}</h1>
+	<PostList posts={posts} />
+</Page>

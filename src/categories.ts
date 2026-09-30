@@ -1,6 +1,8 @@
-// Category tree. Add a category here and it appears in the sidebar, gets a
-// /category/<path>/ page, and becomes selectable in the Tina editor.
-// Posts reference a category by its path, e.g. `category: study/ml`.
+// Tabs and their category trees. Each top-level entry is a tab in the header
+// (/engineering/, /blog/) with its own categories shown in that tab's sidebar.
+// Posts reference a category by path: `category: engineering` (tab root) or
+// `category: blog/life` (nested). Add entries here and the sidebar, category
+// pages and the Tina select all pick them up.
 
 export interface Category {
 	slug: string;
@@ -9,22 +11,25 @@ export interface Category {
 }
 
 export const CATEGORIES: Category[] = [
-	{ slug: 'engineering', label: 'Engineering' },
 	{
-		slug: 'study',
-		label: 'Study',
+		slug: 'engineering',
+		label: 'Engineering',
 		children: [
-			// { slug: 'ml', label: 'Machine Learning' },
+			// { slug: 'ml', label: 'Machine Learning', children: [{ slug: 'llm', label: 'LLM' }] },
 		],
 	},
-	{ slug: 'life', label: 'Life' },
+	{
+		slug: 'blog',
+		label: 'Blog',
+		children: [{ slug: 'life', label: 'Life' }],
+	},
 ];
 
 export interface FlatCategory {
-	path: string; // e.g. "study/ml"
+	path: string; // e.g. "blog/life"
 	label: string;
 	trail: { path: string; label: string }[]; // ancestors + self, for breadcrumbs
-	depth: number;
+	depth: number; // 0 = tab
 }
 
 function flatten(nodes: Category[], parent: FlatCategory['trail'] = []): FlatCategory[] {
@@ -47,4 +52,14 @@ export function getCategory(path: string) {
 // True if `postCategory` is `path` itself or nested anywhere below it
 export function inCategory(postCategory: string, path: string) {
 	return postCategory === path || postCategory.startsWith(`${path}/`);
+}
+
+export function tabOf(path: string) {
+	return path.split('/')[0];
+}
+
+// /engineering/ for a tab, /engineering/category/ml/ for anything below it
+export function categoryUrl(path: string) {
+	const [tab, ...rest] = path.split('/');
+	return rest.length ? `/${tab}/category/${rest.join('/')}/` : `/${tab}/`;
 }

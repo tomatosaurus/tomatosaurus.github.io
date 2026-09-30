@@ -4,7 +4,7 @@ import MarkdownIt from 'markdown-it';
 import sanitizeHtml from 'sanitize-html';
 import { getCategory } from '../categories';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import { getPosts } from '../lib/posts';
+import { getPosts, postUrl } from '../lib/posts';
 
 const parser = new MarkdownIt();
 
@@ -31,7 +31,7 @@ export async function GET(context: APIContext) {
 				...(getCategory(post.data.category)?.trail.map((c) => c.label) ?? []),
 				...post.data.tags,
 			],
-			link: `/blog/${post.id}/`,
+			link: postUrl(post),
 			content: sanitizeHtml(parser.render(post.body ?? ''), {
 				allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
 				// Root-relative URLs (e.g. /uploads/x.png) break once imported elsewhere

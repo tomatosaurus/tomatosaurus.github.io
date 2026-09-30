@@ -1,5 +1,5 @@
 ---
-import { getCategory } from '../categories';
+import { categoryUrl, getCategory } from '../categories';
 
 interface Props {
 	path: string;
@@ -14,7 +14,7 @@ const category = getCategory(Astro.props.path);
 			{category.trail.map((c, i) => (
 				<>
 					{i > 0 && <span class="sep">›</span>}
-					<a href={`/category/${c.path}/`}>{c.label}</a>
+					<a href={categoryUrl(c.path)}>{c.label}</a>
 				</>
 			))}
 		</nav>

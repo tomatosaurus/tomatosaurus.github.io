@@ -14,7 +14,6 @@ const recent = (await getPosts()).slice(0, 5);
 	</section>
 	<h2>Recent posts</h2>
 	<PostList posts={recent} />
-	<p class="more"><a href="/blog/">All posts →</a></p>
 </Page>
 <style>
 	.intro {
@@ -26,8 +25,5 @@ const recent = (await getPosts()).slice(0, 5);
 	.intro p {
 		color: rgb(var(--gray));
 		font-size: 1.15em;
-	}
-	.more {
-		margin-top: 1.5em;
 	}
 </style>

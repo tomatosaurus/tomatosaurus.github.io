@@ -6,7 +6,7 @@ category: engineering
 tags: ['pytorch', 'cuda', 'machine-learning', 'troubleshooting']
 ---
 
-> **Sample post.** Replace or delete this file (`src/content/blog/fix-cuda-out-of-memory-pytorch.md`) — it shows the format for long-tail troubleshooting articles.
+> **Sample post.** Replace or delete this file (`src/content/posts/fix-cuda-out-of-memory-pytorch.md`) — it shows the format for long-tail troubleshooting articles.
 
 ## The error
 

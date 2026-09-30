@@ -9,7 +9,6 @@ export const SITE_DESCRIPTION =
 	'Practical troubleshooting, machine learning and cloud infrastructure notes from production.';
 export const AUTHOR_NAME = 'TomatoSaurus';
 export const AUTHOR_GITHUB = 'https://github.com/tomatosaurus';
-export const AUTHOR_DEVTO = 'https://dev.to/your-devto-id';
 
 // Giscus comments — generate these values at https://giscus.app
 // Leave `repoId` empty to hide the comment section.

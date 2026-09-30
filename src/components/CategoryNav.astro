@@ -1,14 +1,17 @@
 ---
-import { CATEGORY_LIST, inCategory } from '../categories';
-import { getPosts } from '../lib/posts';
+import { CATEGORY_LIST, categoryUrl, inCategory } from '../categories';
+import type { Post } from '../lib/posts';
 
 interface Props {
+	tab: string;
 	// Category path of the current page/post, used for highlighting
 	current?: string;
+	// All posts in this tab
+	posts: Post[];
 }
 
-const { current } = Astro.props;
-const posts = await getPosts();
+const { tab, current, posts } = Astro.props;
+const categories = CATEGORY_LIST.filter((c) => c.depth > 0 && inCategory(c.path, tab));
 const count = (path: string) => posts.filter((p) => inCategory(p.data.category, path)).length;
 ---
 
@@ -16,19 +19,18 @@ const count = (path: string) => posts.filter((p) => inCategory(p.data.category, 
 	<h2>Categories</h2>
 	<ul>
 		<li>
-			<a href="/blog/" class:list={{ active: Astro.url.pathname === '/blog/' }}>
-				All posts <span class="count">{posts.length}</span>
+			<a href={categoryUrl(tab)} class:list={{ active: current === tab }}>
+				All <span class="count">{posts.length}</span>
 			</a>
 		</li>
 		{
-			CATEGORY_LIST.map((c) => (
-				<li style={`--depth: ${c.depth}`}>
+			categories.map((c) => (
+				<li style={`--depth: ${c.depth - 1}`}>
 					<a
-						href={`/category/${c.path}/`}
+						href={categoryUrl(c.path)}
 						class:list={{
 							active: current === c.path,
-							open: current !== undefined && inCategory(current, c.path),
-							top: c.depth === 0,
+							open: current !== undefined && current !== c.path && inCategory(current, c.path),
 						}}
 					>
 						{c.label} <span class="count">{count(c.path)}</span>
@@ -39,13 +41,6 @@ const count = (path: string) => posts.filter((p) => inCategory(p.data.category, 
 	</ul>
 </nav>
 <style>
-	h2 {
-		margin: 0 0 0.5em;
-		color: rgb(var(--gray));
-		font-size: 0.8em;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
 	ul {
 		margin: 0;
 		padding: 0;
@@ -64,12 +59,6 @@ const count = (path: string) => posts.filter((p) => inCategory(p.data.category, 
 		font-size: 0.95em;
 		text-decoration: none;
 	}
-	a.top {
-		margin-top: 0.4em;
-		font-weight: 700;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-	}
 	a:hover,
 	a.open {
 		color: var(--accent);
@@ -80,6 +69,5 @@ const count = (path: string) => posts.filter((p) => inCategory(p.data.category, 
 	}
 	.count {
 		color: rgb(var(--gray));
-		font-weight: 400;
 	}
 </style>

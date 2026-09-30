@@ -4,13 +4,21 @@ import BaseHead from '../components/BaseHead.astro';
 import CategoryNav from '../components/CategoryNav.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import TagFilter from '../components/TagFilter.astro';
+import type { Post } from '../lib/posts';
 
 type Props = ComponentProps<typeof BaseHead> & {
-	// Category to highlight in the sidebar
-	currentCategory?: string;
+	// Tab pages and posts get a sidebar with the tab's categories and tag filter
+	sidebar?: {
+		tab: string;
+		currentCategory?: string;
+		tabPosts: Post[];
+		// Posts the tag filter counts over; defaults to the whole tab
+		scopePosts?: Post[];
+	};
 };
 
-const { currentCategory, ...head } = Astro.props;
+const { sidebar, ...head } = Astro.props;
 ---
 
 <!doctype html>
@@ -20,51 +28,77 @@ const { currentCategory, ...head } = Astro.props;
 	</head>
 	<body>
 		<Header />
-		<div class="layout">
+		<div class:list={['container', 'layout', { 'has-sidebar': sidebar }]}>
 			<main>
 				<slot />
 			</main>
-			<aside>
-				<CategoryNav current={currentCategory} />
-			</aside>
+			{
+				sidebar && (
+					<aside>
+						<CategoryNav
+							tab={sidebar.tab}
+							current={sidebar.currentCategory}
+							posts={sidebar.tabPosts}
+						/>
+						<TagFilter tab={sidebar.tab} posts={sidebar.scopePosts ?? sidebar.tabPosts} />
+					</aside>
+				)
+			}
 		</div>
 		<Footer />
 	</body>
 </html>
 <style>
 	.layout {
-		display: grid;
-		grid-template-columns: 220px minmax(0, 720px);
-		grid-template-areas: 'aside main';
-		justify-content: center;
-		gap: 3em;
-		padding: 3em 1em;
+		padding-block: 3em;
 	}
 	.layout main {
-		grid-area: main;
 		width: auto;
-		max-width: none;
+		max-width: 720px;
 		margin: 0;
 		padding: 0;
 	}
+	.has-sidebar {
+		display: grid;
+		grid-template-columns: 220px minmax(0, 1fr);
+		grid-template-areas: 'aside main';
+		gap: 3em;
+	}
+	.has-sidebar main {
+		grid-area: main;
+	}
 	aside {
 		grid-area: aside;
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
 		position: sticky;
 		top: 1.5em;
 		align-self: start;
 	}
-	/* Narrow screens: categories drop below the content */
+	aside :global(h2) {
+		margin: 0 0 0.6em;
+		color: rgb(var(--gray));
+		font-size: 0.75em;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+	/* Narrow screens: sidebar drops below the content */
 	@media (max-width: 960px) {
-		.layout {
+		.has-sidebar {
 			grid-template-columns: minmax(0, 1fr);
 			grid-template-areas: 'main' 'aside';
 			gap: 2em;
-			padding: 2em 1em;
 		}
 		aside {
 			position: static;
 			padding-top: 1.5em;
 			border-top: 1px solid rgb(var(--gray-light));
+		}
+	}
+	@media (max-width: 720px) {
+		.layout {
+			padding-block: 2em;
 		}
 	}
 </style>
