@@ -3,6 +3,21 @@ import { CATEGORY_LIST } from '../src/categories';
 
 // Tina Cloud credentials (free plan) — https://app.tina.io
 // Local editing (`npm run dev` → http://localhost:4321/admin/) works without them.
+const slugField = {
+	type: 'string',
+	name: 'slug',
+	label: 'Slug (URL, lowercase-with-dashes)',
+	required: true,
+	ui: {
+		validate: (value?: string) =>
+			value && !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(value)
+				? 'Use lowercase letters, numbers and dashes only'
+				: undefined,
+	},
+} as const;
+const labelField = { type: 'string', name: 'label', label: 'Label', required: true } as const;
+const itemLabel = (item: { label?: string }) => ({ label: item?.label || 'New item' });
+
 const branch = process.env.GITHUB_BRANCH || process.env.HEAD || 'main';
 
 export default defineConfig({
@@ -23,6 +38,47 @@ export default defineConfig({
 	// Keep fields in sync with src/content.config.ts
 	schema: {
 		collections: [
+			{
+				// Header tabs → categories → sub-categories (src/data/categories.json)
+				name: 'categories',
+				label: 'Tabs & Categories',
+				path: 'src/data',
+				format: 'json',
+				match: { include: 'categories' },
+				ui: { allowedActions: { create: false, delete: false } },
+				fields: [
+					{
+						type: 'object',
+						name: 'tabs',
+						label: 'Tabs',
+						list: true,
+						ui: { itemProps: itemLabel },
+						fields: [
+							slugField,
+							labelField,
+							{
+								type: 'object',
+								name: 'children',
+								label: 'Categories',
+								list: true,
+								ui: { itemProps: itemLabel },
+								fields: [
+									slugField,
+									labelField,
+									{
+										type: 'object',
+										name: 'children',
+										label: 'Sub-categories',
+										list: true,
+										ui: { itemProps: itemLabel },
+										fields: [slugField, labelField],
+									},
+								],
+							},
+						],
+					},
+				],
+			},
 			{
 				name: 'posts',
 				label: 'Posts',

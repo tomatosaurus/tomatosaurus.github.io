@@ -1,0 +1,11 @@
+{
+  "tabs": [
+    { "slug": "engineering", "label": "Engineering", "children": [] },
+    { "slug": "study", "label": "Study", "children": [] },
+    {
+      "slug": "blog",
+      "label": "Blog",
+      "children": [{ "slug": "life", "label": "Life", "children": [] }]
+    }
+  ]
+}

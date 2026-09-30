@@ -1,8 +1,10 @@
-// Tabs and their category trees. Each top-level entry is a tab in the header
-// (/engineering/, /blog/) with its own categories shown in that tab's sidebar.
+import data from './data/categories.json';
+
+// Tabs and their category trees live in src/data/categories.json (editable in
+// the Tina editor under "Tabs & Categories"). Each top-level entry is a header
+// tab (/engineering/, /blog/) with its own categories in that tab's sidebar.
 // Posts reference a category by path: `category: engineering` (tab root) or
-// `category: blog/life` (nested). Add entries here and the sidebar, category
-// pages and the Tina select all pick them up.
+// `category: blog/life` (nested).
 
 export interface Category {
 	slug: string;
@@ -10,20 +12,16 @@ export interface Category {
 	children?: Category[];
 }
 
-export const CATEGORIES: Category[] = [
-	{
-		slug: 'engineering',
-		label: 'Engineering',
-		children: [
-			// { slug: 'ml', label: 'Machine Learning', children: [{ slug: 'llm', label: 'LLM' }] },
-		],
-	},
-	{
-		slug: 'blog',
-		label: 'Blog',
-		children: [{ slug: 'life', label: 'Life' }],
-	},
-];
+// Paths already used by fixed pages; a tab with one of these slugs would clash
+const RESERVED_TABS = ['contact'];
+
+export const CATEGORIES: Category[] = data.tabs;
+
+for (const tab of CATEGORIES) {
+	if (RESERVED_TABS.includes(tab.slug)) {
+		throw new Error(`Tab slug "${tab.slug}" is reserved (src/data/categories.json)`);
+	}
+}
 
 export interface FlatCategory {
 	path: string; // e.g. "blog/life"

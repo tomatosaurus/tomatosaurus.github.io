@@ -18,7 +18,7 @@ npm run build        # dist/ 에 정적 빌드
 | 경로 | 역할 |
 | --- | --- |
 | `src/consts.ts` | **사이트 URL, 제목, 작성자, Giscus 설정** — 가장 먼저 수정 |
-| `src/categories.ts` | **상단 탭 + 탭별 계층형 카테고리** (헤더·사이드바·카테고리 페이지·Tina 선택지에 반영) |
+| `src/data/categories.json` | **상단 탭 + 탭별 계층형 카테고리** (에디터에서 수정 가능, 헤더·사이드바·Tina 선택지에 반영) |
 | `src/content/posts/*.md(x)` | 글 (frontmatter: `title`, `description`, `pubDate`, `updatedDate?`, `heroImage?`, `category`, `tags`, `draft`) |
 | `src/content.config.ts` | 글 frontmatter 스키마 (`tina/config.ts`와 같이 유지) |
 | `src/components/BaseHead.astro` | canonical, OG/Twitter, `BlogPosting` JSON-LD |
@@ -29,18 +29,16 @@ npm run build        # dist/ 에 정적 빌드
 
 ## 탭 · 카테고리 · 태그
 
-`src/categories.ts`의 최상위 항목이 **상단 탭**(ENGINEERING, BLOG)이고, 그 아래 `children`이 탭별 카테고리입니다. 깊이 제한은 없습니다. CONTACT 탭은 `src/pages/contact.astro`입니다.
+탭과 카테고리는 `src/data/categories.json`에 있고, **에디터(`/admin`) → Tabs & Categories**에서 UI로 추가·수정·순서 변경할 수 있습니다 (탭 → 카테고리 → 하위 카테고리 3단계). JSON을 직접 수정하면 더 깊은 단계도 가능합니다. CONTACT 탭은 `src/pages/contact.astro`이며 `contact`는 탭 slug로 쓸 수 없습니다.
 
-```ts
-{
-	slug: 'engineering',
-	label: 'Engineering',
-	children: [
-		{ slug: 'ml', label: 'Machine Learning', children: [{ slug: 'llm', label: 'LLM' }] },
-	],
-},
+```json
+{ "slug": "engineering", "label": "Engineering", "children": [
+  { "slug": "ml", "label": "Machine Learning", "children": [] }
+] }
 ```
 
+- 카테고리를 추가한 직후에는 글 편집 화면의 카테고리 목록에 바로 안 보입니다. 로컬은 `npm run dev` 재시작, 배포 사이트는 자동 재배포(1~2분) 후 반영됩니다.
+- slug를 바꾸거나 카테고리를 지우면 그 카테고리를 쓰던 글은 빌드가 실패하니 글의 `category`도 같이 바꿔 주세요.
 - 글에는 경로로 지정: `category: engineering`(탭 바로 아래) 또는 `category: engineering/ml/llm`. 정의 안 된 경로면 빌드가 실패하며 가능한 값을 보여줍니다.
 - URL: 탭 `/engineering/`, 카테고리 `/engineering/category/ml/`, 글 `/engineering/<파일명>/`
 - 탭·카테고리·글 페이지의 왼쪽 사이드바에 ① 해당 탭의 카테고리 트리 ② 태그 필터가 표시됩니다. 태그는 여러 개 선택 가능하며 선택한 태그를 **모두** 가진 글만 보여줍니다 (`?tag=aws,cuda`).
