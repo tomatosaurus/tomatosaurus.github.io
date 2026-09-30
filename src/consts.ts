@@ -7,7 +7,7 @@ export const SITE_URL = 'https://tomatosaurus.github.io';
 export const SITE_TITLE = 'Dev Notes';
 export const SITE_DESCRIPTION =
 	'Practical troubleshooting, machine learning and cloud infrastructure notes from production.';
-export const AUTHOR_NAME = 'Your Name';
+export const AUTHOR_NAME = 'TomatoSaurus';
 export const AUTHOR_GITHUB = 'https://github.com/tomatosaurus';
 export const AUTHOR_DEVTO = 'https://dev.to/your-devto-id';
 
