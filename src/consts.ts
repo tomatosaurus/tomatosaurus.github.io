@@ -15,9 +15,9 @@ export const AUTHOR_DEVTO = 'https://dev.to/your-devto-id';
 // Leave `repoId` empty to hide the comment section.
 export const GISCUS = {
 	repo: 'tomatosaurus/tomatosaurus.github.io',
-	repoId: '',
+	repoId: 'R_kgDOU04-1A',
 	category: 'Announcements',
-	categoryId: '',
+	categoryId: 'DIC_kwDOU04-1M4DGvF7',
 	mapping: 'pathname',
 	lang: 'en',
 } as const;
