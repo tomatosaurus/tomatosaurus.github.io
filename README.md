@@ -73,6 +73,8 @@ npm run build        # dist/ 에 정적 빌드
 3. Client ID와 Read-only Token 발급
 4. 저장소 Settings → Secrets and variables → Actions에 `TINA_CLIENT_ID`, `TINA_TOKEN` 등록
 
+**에디터 주의사항**: Tina의 본문 에디터는 **번호/글머리 목록 안에 들어간 코드 블록**을 읽지 못합니다 ("Unable to parse rich-text"가 뜨고 본문이 비어 보임 — 이 상태로 저장하면 본문이 지워질 수 있음). 단계별 설명은 목록 대신 `**1. ...**` 같은 굵은 문단 + 코드 블록으로 쓰세요. 툴바 맨 오른쪽 버튼으로 마크다운 원문 편집 모드로 전환할 수 있습니다.
+
 시크릿이 있으면 워크플로가 `npm run build:cms`로 `/admin`까지 빌드하고, 없으면 에디터 없이 사이트만 빌드합니다.
 본문 이미지는 `public/uploads/`에 저장됩니다. (`heroImage`는 Astro 이미지 최적화를 위해 `src/assets/`의 상대 경로로 파일에서 직접 지정)
 

@@ -28,23 +28,23 @@ has freed, but that memory is split into blocks too small for the 2 GiB request 
 
 ## Fix
 
-1. Let the allocator grow segments instead of fragmenting:
+**1. Let the allocator grow segments instead of fragmenting:**
 
-   ```bash
-   export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
-   ```
+```bash
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+```
 
-2. Make sure you are not keeping the graph alive by accumulating tensors:
+**2. Make sure you are not keeping the graph alive by accumulating tensors:**
 
-   ```python
-   running_loss += loss.item()  # not `running_loss += loss`
-   ```
+```python
+running_loss += loss.item()  # not `running_loss += loss`
+```
 
-3. Inspect what is actually holding memory:
+**3. Inspect what is actually holding memory:**
 
-   ```python
-   print(torch.cuda.memory_summary(abbreviated=True))
-   ```
+```python
+print(torch.cuda.memory_summary(abbreviated=True))
+```
 
 ## Takeaway
 
