@@ -4,7 +4,7 @@
 // Used for canonical URLs, sitemap, RSS and Open Graph tags.
 export const SITE_URL = 'https://tomatosaurus.github.io';
 
-export const SITE_TITLE = 'Dev Notes';
+export const SITE_TITLE = 'Tomato AI Cuisine';
 export const SITE_DESCRIPTION =
 	'Practical troubleshooting, machine learning and cloud infrastructure notes from production.';
 export const AUTHOR_NAME = 'TomatoSaurus';

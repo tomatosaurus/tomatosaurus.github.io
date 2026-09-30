@@ -1,4 +1,4 @@
-# Dev Notes — Astro 블로그 (GitHub Pages)
+# Tomato AI Cuisine — Astro 블로그 (GitHub Pages)
 
 비용 $0 기술 블로그: **Astro** + **GitHub Pages** + **TinaCMS**(웹 에디터) + **Giscus**(댓글) + 전문(full-content) **RSS**(Dev.to 크로스포스팅용).
 
