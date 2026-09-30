@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts, tagSlug } from '../../lib/posts';
+
+export async function getStaticPaths() {
+	const posts = await getPosts();
+	const byTag = new Map<string, { name: string; posts: CollectionEntry<'blog'>[] }>();
+	for (const post of posts) {
+		for (const name of post.data.tags) {
+			const slug = tagSlug(name);
+			if (!byTag.has(slug)) byTag.set(slug, { name, posts: [] });
+			byTag.get(slug)!.posts.push(post);
+		}
+	}
+	return [...byTag].map(([tag, props]) => ({ params: { tag }, props }));
+}
+
+const { name, posts } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`#${name}`} description={`Posts tagged "${name}".`} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<p><a href="/tags/">← All tags</a></p>
+			<h1>#{name}</h1>
+			<PostList posts={posts} />
+		</main>
+		<Footer />
+	</body>
+</html>

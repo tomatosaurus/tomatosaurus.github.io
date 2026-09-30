@@ -1,0 +1,43 @@
+---
+import { tagSlug } from '../lib/posts';
+
+interface Props {
+	tags: string[];
+}
+
+const { tags } = Astro.props;
+---
+
+{
+	tags.length > 0 && (
+		<ul class="tags">
+			{tags.map((tag) => (
+				<li>
+					<a href={`/tags/${tagSlug(tag)}/`}>#{tag}</a>
+				</li>
+			))}
+		</ul>
+	)
+}
+<style>
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.5em;
+		margin: 0.5em 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.tags a {
+		padding: 0.15em 0.6em;
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--accent) 8%, transparent);
+		color: var(--accent);
+		font-size: 0.85em;
+		text-decoration: none;
+	}
+	.tags a:hover {
+		background: color-mix(in srgb, var(--accent) 16%, transparent);
+	}
+</style>

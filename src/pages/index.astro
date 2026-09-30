@@ -1,0 +1,45 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import PostList from '../components/PostList.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getPosts } from '../lib/posts';
+
+const recent = (await getPosts()).slice(0, 5);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="intro">
+				<h1>{SITE_TITLE}</h1>
+				<p>{SITE_DESCRIPTION}</p>
+			</section>
+			<h2>Recent posts</h2>
+			<PostList posts={recent} />
+			<p class="more"><a href="/blog/">All posts →</a></p>
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+	.intro {
+		margin-bottom: 2em;
+	}
+	.intro h1 {
+		margin-bottom: 0.25em;
+	}
+	.intro p {
+		color: rgb(var(--gray));
+		font-size: 1.15em;
+	}
+	.more {
+		margin-top: 1.5em;
+	}
+</style>
