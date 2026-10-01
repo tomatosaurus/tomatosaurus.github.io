@@ -1,4 +1,5 @@
-import { defineConfig } from 'tinacms';
+import { createElement } from 'react';
+import { defineConfig, wrapFieldsWithMeta } from 'tinacms';
 import { CATEGORY_LIST } from '../src/categories';
 
 // Tina Cloud credentials (free plan) — https://app.tina.io
@@ -17,6 +18,34 @@ const slugField = {
 } as const;
 const labelField = { type: 'string', name: 'label', label: 'Label', required: true } as const;
 const itemLabel = (item: { label?: string }) => ({ label: item?.label || 'New item' });
+
+// Tab / category picker built from src/data/categories.json at editor build time
+const categorySelect = wrapFieldsWithMeta<{}, { value?: string; onChange: (v: string) => void }>(
+	({ input }) =>
+		createElement(
+			'select',
+			{
+				value: input.value ?? '',
+				onChange: (e: { target: { value: string } }) => input.onChange(e.target.value),
+				style: {
+					width: '100%',
+					padding: '0.5rem 0.75rem',
+					border: '1px solid #e1ddec',
+					borderRadius: '0.375rem',
+					background: 'white',
+					fontSize: '0.875rem',
+				},
+			},
+			createElement('option', { value: '' }, 'Select a category…'),
+			...CATEGORY_LIST.map((c) =>
+				createElement(
+					'option',
+					{ key: c.path, value: c.path },
+					c.trail.map((t) => t.label).join(' / '),
+				),
+			),
+		),
+);
 
 const branch = process.env.GITHUB_BRANCH || process.env.HEAD || 'main';
 
@@ -115,11 +144,16 @@ export default defineConfig({
 						name: 'category',
 						label: 'Category',
 						required: true,
-						// Tab / category. Edit src/categories.ts to add categories
-						options: CATEGORY_LIST.map((c) => ({
-							value: c.path,
-							label: c.trail.map((t) => t.label).join(' / '),
-						})),
+						// Options are rendered by a custom component rather than `options`: the
+						// schema is locked in tina-lock.json, so options there would make every
+						// category edit fail the Tina Cloud schema check until the lock is rebuilt.
+						ui: {
+							component: categorySelect,
+							validate: (value?: string) =>
+								value && !CATEGORY_LIST.some((c) => c.path === value)
+									? 'Unknown category — add it under Tabs & Categories first'
+									: undefined,
+						},
 					},
 					{ type: 'string', name: 'tags', label: 'Tags', list: true },
 					{ type: 'boolean', name: 'draft', label: 'Draft (hidden in production)' },
