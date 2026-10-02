@@ -8,12 +8,9 @@ import TagList from '../components/TagList.astro';
 import type { Post } from '../lib/posts';
 import Page from './Page.astro';
 
-type Props = Post['data'] & {
-	// All posts in this post's tab, for the sidebar
-	tabPosts: Post[];
-};
+type Props = Post['data'];
 
-const { title, description, pubDate, updatedDate, heroImage, category, tags, tabPosts } =
+const { title, description, pubDate, updatedDate, heroImage, category, tags } =
 	Astro.props;
 const tab = tabOf(category);
 ---
@@ -23,7 +20,7 @@ const tab = tabOf(category);
 	description={description}
 	image={heroImage}
 	article={{ pubDate, updatedDate, tags }}
-	sidebar={{ tab, currentCategory: category, tabPosts }}
+	wide
 >
 	<article>
 		{
@@ -33,28 +30,36 @@ const tab = tabOf(category);
 				</div>
 			)
 		}
-		<div class="title">
+		<header class="post-header">
 			<CategoryTrail path={category} />
 			<h1>{title}</h1>
-			<div class="date">
-				<FormattedDate date={pubDate} />
-				{
-					updatedDate && (
-						<span class="last-updated-on">
-							· Updated <FormattedDate date={updatedDate} />
-						</span>
-					)
-				}
-				<span data-view-count hidden>
-					· <span class="count"></span> views
-				</span>
+			<div class="meta-grid">
+				<div class="meta">
+					<div>Published <FormattedDate date={pubDate} /></div>
+					{
+						updatedDate && (
+							<div class="last-updated-on">
+								Updated <FormattedDate date={updatedDate} />
+							</div>
+						)
+					}
+					<div data-view-count hidden>
+						<span class="count"></span> views
+					</div>
+				</div>
+				<p class="lead">{description}</p>
 			</div>
-			<TagList tab={tab} tags={tags} />
-			<hr />
-		</div>
+		</header>
 		<div class="prose">
 			<slot />
 		</div>
+		{
+			tags.length > 0 && (
+				<footer class="post-tags">
+					<TagList tab={tab} tags={tags} />
+				</footer>
+			)
+		}
 		<Giscus />
 	</article>
 </Page>
@@ -67,23 +72,118 @@ const tab = tabOf(category);
 		border-radius: 12px;
 		box-shadow: var(--box-shadow);
 	}
-	.title {
-		margin-bottom: 1.5em;
+	.post-header {
+		margin-bottom: 3em;
 	}
-	.title h1 {
-		margin: 0.2em 0 0.3em;
-		line-height: 1.15;
+	.post-header h1 {
+		margin: 0.3em 0 0.6em;
+		font-size: 2.6em;
+		line-height: 1.1;
+		letter-spacing: -0.01em;
 	}
-	.title :global(.tags) {
-		justify-content: flex-start;
+	/* Rule, then date/tags on the left and the summary as a lead on the right */
+	.meta-grid {
+		display: grid;
+		grid-template-columns: 11em minmax(0, 1fr);
+		gap: 2em;
+		padding-top: 1.25em;
+		border-top: 1px solid rgb(var(--black));
 	}
-	.date {
+	.meta {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2em;
 		color: rgb(var(--gray));
+		font-size: 0.9em;
 	}
 	.last-updated-on {
 		font-style: italic;
 	}
+	.lead {
+		margin: 0;
+		color: rgb(var(--black));
+		font-size: 1.35em;
+		line-height: 1.5;
+	}
+	@media (max-width: 720px) {
+		.meta-grid {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 1em;
+		}
+	}
+
+	.post-tags {
+		margin-top: 2.5em;
+		padding-top: 1.25em;
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+	.post-tags :global(.tags) {
+		margin: 0;
+	}
+
+	/* Reading column: serif body, sans headings */
 	.prose {
+		color: rgb(var(--black));
+		font-family: var(--font-serif);
+		line-height: 1.55;
+	}
+	.prose :global(p) {
+		margin: 0 0 1em;
+	}
+	.prose :global(:is(h2, h3, h4)) {
+		margin: 2em 0 0.5em;
+		font-family: var(--font-atkinson);
+		font-weight: 700;
+		line-height: 1.25;
+	}
+	.prose :global(h2) {
+		font-size: 1.45em;
+	}
+	.prose :global(h3) {
+		font-size: 1.2em;
+	}
+	.prose :global(h4) {
+		font-size: 1em;
+	}
+	.prose :global(a) {
+		color: inherit;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.15em;
+	}
+	.prose :global(a:hover) {
+		color: var(--accent);
+	}
+	.prose :global(:is(ul, ol)) {
+		margin: 0 0 1em;
+		padding-left: 1.4em;
+	}
+	.prose :global(li) {
+		margin-bottom: 0.5em;
+	}
+	.prose :global(:not(pre) > code) {
+		padding: 0.05em 0.3em;
+		border: 1px solid #e3ded0;
+		border-radius: 4px;
+		background: #f3f0e8;
+		color: #b5573a;
+		font-size: 0.9em;
+	}
+	.prose :global(pre) {
+		margin: 0 0 1.5em;
+		border: 1px solid #e3ded0;
+		/* Override Shiki's inline white background */
+		background-color: #f8f6f0 !important;
+		font-size: 0.85em;
+		line-height: 1.6;
+	}
+	.prose :global(blockquote) {
+		margin: 0 0 1em;
+		padding-left: 1em;
+		border-left: 3px solid rgb(var(--gray-light));
 		color: rgb(var(--gray-dark));
+		font-size: 1em;
+	}
+	.prose :global(hr) {
+		margin: 2em 0;
 	}
 </style>

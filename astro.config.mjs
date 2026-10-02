@@ -17,6 +17,15 @@ export default defineConfig({
 	},
 	fonts: [
 		{
+			// Serif reading face for post bodies
+			provider: fontProviders.google(),
+			name: 'Source Serif 4',
+			cssVariable: '--font-serif',
+			weights: [400, 600],
+			styles: ['normal', 'italic'],
+			fallbacks: ['Georgia', 'serif'],
+		},
+		{
 			provider: fontProviders.local(),
 			name: 'Atkinson',
 			cssVariable: '--font-atkinson',

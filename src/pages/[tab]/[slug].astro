@@ -1,24 +1,21 @@
 ---
 import { render } from 'astro:content';
-import { inCategory, tabOf } from '../../categories';
+import { tabOf } from '../../categories';
 import BlogPost from '../../layouts/BlogPost.astro';
 import { getPosts, type Post } from '../../lib/posts';
 
 export async function getStaticPaths() {
 	const posts = await getPosts();
-	return posts.map((post) => {
-		const tab = tabOf(post.data.category);
-		return {
-			params: { tab, slug: post.id },
-			props: { post, tabPosts: posts.filter((p) => inCategory(p.data.category, tab)) },
-		};
-	});
+	return posts.map((post) => ({
+		params: { tab: tabOf(post.data.category), slug: post.id },
+		props: { post },
+	}));
 }
 
-const { post, tabPosts } = Astro.props as { post: Post; tabPosts: Post[] };
+const { post } = Astro.props as { post: Post };
 const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data} tabPosts={tabPosts}>
+<BlogPost {...post.data}>
 	<Content />
 </BlogPost>

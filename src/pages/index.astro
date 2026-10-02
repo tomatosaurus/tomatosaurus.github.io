@@ -8,10 +8,12 @@ import { getPosts } from '../lib/posts';
 const recent = (await getPosts()).slice(0, 5);
 ---
 
-<Page title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<SiteStats slot="below-header" />
+<Page title={SITE_TITLE} description={SITE_DESCRIPTION} wide>
 	<section class="intro">
-		<h1>{SITE_TITLE}</h1>
+		<div class="title-row">
+			<h1>{SITE_TITLE}</h1>
+			<SiteStats />
+		</div>
 		<p>{SITE_DESCRIPTION}</p>
 	</section>
 	<h2>Recent posts</h2>
@@ -21,8 +23,17 @@ const recent = (await getPosts()).slice(0, 5);
 	.intro {
 		margin-bottom: 2em;
 	}
-	.intro h1 {
+	/* Blog name on the left, visitor counts at the right end of the same line */
+	.title-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.25em 1em;
 		margin-bottom: 0.25em;
+	}
+	.intro h1 {
+		margin: 0;
 	}
 	.intro p {
 		color: rgb(var(--gray));

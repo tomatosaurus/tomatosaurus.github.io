@@ -17,9 +17,11 @@ type Props = ComponentProps<typeof BaseHead> & {
 		// Posts the tag filter counts over; defaults to the whole tab
 		scopePosts?: Post[];
 	};
+	// Let the content fill the whole container instead of the 720px column
+	wide?: boolean;
 };
 
-const { sidebar, ...head } = Astro.props;
+const { sidebar, wide, ...head } = Astro.props;
 ---
 
 <!doctype html>
@@ -29,8 +31,7 @@ const { sidebar, ...head } = Astro.props;
 	</head>
 	<body>
 		<Header />
-		<slot name="below-header" />
-		<div class:list={['container', 'layout', { 'has-sidebar': sidebar }]}>
+		<div class:list={['container', 'layout', { 'has-sidebar': sidebar, wide }]}>
 			<main>
 				<slot />
 			</main>
@@ -53,7 +54,7 @@ const { sidebar, ...head } = Astro.props;
 </html>
 <style>
 	.layout {
-		padding-block: 3em;
+		padding-block: 1.5em 3em;
 	}
 	.layout main {
 		width: auto;
@@ -62,6 +63,9 @@ const { sidebar, ...head } = Astro.props;
 		padding: 0;
 		/* Content text is smaller than the header, footer and sidebar */
 		font-size: 0.85em;
+	}
+	.wide main {
+		max-width: none;
 	}
 	.has-sidebar {
 		display: grid;
@@ -103,7 +107,7 @@ const { sidebar, ...head } = Astro.props;
 	}
 	@media (max-width: 720px) {
 		.layout {
-			padding-block: 2em;
+			padding-block: 1em 2em;
 		}
 	}
 </style>
