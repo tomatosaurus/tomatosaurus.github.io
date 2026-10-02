@@ -10,6 +10,11 @@ export default defineConfig({
 	site: SITE_URL,
 	trailingSlash: 'always',
 	integrations: [mdx(), sitemap()],
+	build: {
+		// Inline CSS into each page. GitHub Pages lets browsers cache HTML for 10 minutes, and a
+		// deploy deletes the old hashed CSS files, so a cached page would otherwise load unstyled.
+		inlineStylesheets: 'always',
+	},
 	markdown: {
 		shikiConfig: {
 			themes: { light: 'github-light', dark: 'github-dark' },
