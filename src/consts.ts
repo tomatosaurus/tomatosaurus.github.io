@@ -8,6 +8,7 @@ export const SITE_TITLE = 'Tomato AI Cuisine';
 export const SITE_DESCRIPTION = 'FDE @ Google. Study & Solve real-world problems.';
 export const AUTHOR_NAME = 'TomatoSaurus';
 export const AUTHOR_GITHUB = 'https://github.com/tomatosaurus';
+export const AUTHOR_LINKEDIN = 'https://www.linkedin.com/in/jhpark9701/';
 
 // Giscus comments — generate these values at https://giscus.app
 // Leave `repoId` empty to hide the comment section.

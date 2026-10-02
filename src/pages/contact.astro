@@ -1,15 +1,172 @@
 ---
-import { AUTHOR_GITHUB, AUTHOR_NAME } from '../consts';
+import { AUTHOR_GITHUB, AUTHOR_LINKEDIN } from '../consts';
 import Page from '../layouts/Page.astro';
+
+const experience = [
+	{
+		org: 'Google',
+		role: 'Forward Deployed Engineer',
+		where: 'Singapore',
+		period: 'Oct 2026 – Present',
+		points: [],
+	},
+	{
+		org: 'NAVER',
+		role: 'Tech Leader · Product Data AI',
+		period: 'Feb 2025 – 2026',
+		points: [
+			'Led a 5-engineer task force building a service that extracts standardized, hierarchical purchase options from product catalogs.',
+			'Reframed option extraction as a clustering problem and scaled it on off-the-shelf LLM/VLM backbones.',
+		],
+	},
+	{
+		org: 'NAVER',
+		role: 'ML/AI Engineer · Product Data AI',
+		period: 'Mar 2020 – Feb 2025',
+		points: [
+			'Pre-trained E-CLIP, a commerce-domain vision-language foundation model, on 4B+ product image-text pairs; it still serves as a core embedding model.',
+			'Proposed the team\'s product attribute extraction framework — "representation learning is attribute learning" — with multimodal classifiers and generators.',
+			'Shipped catalog purchase-option extraction, LLM LoRA fine-tuning on SLURM, and an image-safety classifier, served with TorchServe on Kubernetes.',
+		],
+	},
+	{
+		org: 'Bongjiks',
+		role: 'Side project',
+		period: 'Nov 2025',
+		points: ['Launched a review service that reached 1,000+ doctors within 4 days.'],
+	},
+];
+
+const education = [
+	{ degree: 'M.S. Electrical Engineering', school: 'KAIST', period: '2018 – 2020', note: 'Quantum algorithms & quantum computing' },
+	{ degree: 'B.S. Electrical Engineering', school: 'KAIST', period: '2014 – 2018' },
+];
+
+const publications = [
+	{ title: 'E-CLIP: Large-scale Vision-Language Representation Learning in E-commerce', venue: 'CIKM 2022' },
+	{ title: 'Quantum-classical reinforcement learning for decoding noisy classical parity information', venue: 'Quantum Machine Intelligence, 2020' },
+	{ title: 'Quantum-classical reinforcement algorithm for learning parity with noisy classical data and a noisy quantum machine', venue: 'QTML 2019' },
+	{ title: 'Quantum-classical reinforcement parity learning from noisy classical data', venue: 'APS March Meeting 2019' },
+];
 ---
 
-<Page title="Contact" description={`Get in touch with ${AUTHOR_NAME}.`}>
+<Page title="Contact" description="Jonghun Park — Forward Deployed Engineer at Google. Career, research and how to reach me.">
 	<h1>Contact</h1>
-	<p>
-		Hi, I'm {AUTHOR_NAME}. I write about production troubleshooting, machine learning systems and
-		cloud infrastructure.
+	<p class="lead">
+		Hi, I'm <strong>Jonghun Park</strong>, a Forward Deployed Engineer at Google Singapore. Before
+		that I spent six years at NAVER building commerce-scale ML — from pre-training multimodal
+		foundation models to leading teams that ship LLM-based catalog services. I started out in
+		quantum algorithms at KAIST. This blog is where I study and solve real-world problems.
 	</p>
-	<ul>
-		<li>GitHub: <a href={AUTHOR_GITHUB}>{AUTHOR_GITHUB.replace('https://', '')}</a></li>
+	<ul class="links">
+		<li><a href={AUTHOR_LINKEDIN}>LinkedIn</a></li>
+		<li><a href={AUTHOR_GITHUB}>GitHub</a></li>
 	</ul>
+
+	<h2>Experience</h2>
+	<ol class="timeline">
+		{
+			experience.map((e) => (
+				<li>
+					<div class="head">
+						<strong>{e.org}</strong>
+						<span class="period">{e.period}</span>
+					</div>
+					<div class="role">
+						{e.role}
+						{e.where && ` · ${e.where}`}
+					</div>
+					{e.points.length > 0 && (
+						<ul>
+							{e.points.map((p) => (
+								<li>{p}</li>
+							))}
+						</ul>
+					)}
+				</li>
+			))
+		}
+	</ol>
+
+	<h2>Education</h2>
+	<ol class="timeline">
+		{
+			education.map((e) => (
+				<li>
+					<div class="head">
+						<strong>{e.school}</strong>
+						<span class="period">{e.period}</span>
+					</div>
+					<div class="role">
+						{e.degree}
+						{e.note && ` · ${e.note}`}
+					</div>
+				</li>
+			))
+		}
+	</ol>
+
+	<h2>Publications</h2>
+	<ul class="pubs">
+		{
+			publications.map((p) => (
+				<li>
+					{p.title} <span class="venue">— {p.venue}</span>
+				</li>
+			))
+		}
+	</ul>
+	<p class="patent">
+		<strong>Patent:</strong> Quantum algorithm and circuit for learning parity with noise of classical
+		learning data (KR 10-2019-0174220)
+	</p>
 </Page>
+<style>
+	.lead {
+		font-size: 1.1em;
+	}
+	.links {
+		display: flex;
+		gap: 1.25em;
+		padding: 0;
+		list-style: none;
+	}
+	h2 {
+		margin-top: 1.75em;
+		font-size: 1.5em;
+	}
+	.timeline {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.timeline > li {
+		padding: 0.75em 0 0.75em 1em;
+		border-left: 2px solid rgb(var(--gray-light));
+	}
+	.head {
+		display: flex;
+		justify-content: space-between;
+		gap: 1em;
+		flex-wrap: wrap;
+	}
+	.period,
+	.role,
+	.venue {
+		color: rgb(var(--gray));
+	}
+	.period {
+		font-size: 0.9em;
+	}
+	.timeline ul {
+		margin: 0.4em 0 0;
+		padding-left: 1.2em;
+		font-size: 0.95em;
+	}
+	.pubs li {
+		margin-bottom: 0.4em;
+	}
+	.patent {
+		font-size: 0.95em;
+	}
+</style>
