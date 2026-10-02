@@ -10,6 +10,8 @@ import HeaderLink from './HeaderLink.astro';
 		<div class="tabs">
 			{CATEGORIES.map((tab) => <HeaderLink href={`/${tab.slug}/`}>{tab.label}</HeaderLink>)}
 			<HeaderLink href="/contact/">Contact</HeaderLink>
+			<!-- TinaCMS editor; signs in with Tina Cloud on the deployed site -->
+			<a class="login" href="/admin/">Login</a>
 		</div>
 	</nav>
 </header>
@@ -47,6 +49,15 @@ import HeaderLink from './HeaderLink.astro';
 	}
 	.tabs :global(a:hover) {
 		color: var(--accent);
+	}
+	.tabs .login {
+		align-self: center;
+		padding: 0.35em 0.9em;
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 999px;
+	}
+	.tabs .login:hover {
+		border-color: var(--accent);
 	}
 	.tabs :global(a.active) {
 		border-bottom-color: var(--accent);
