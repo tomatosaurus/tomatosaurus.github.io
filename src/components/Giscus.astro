@@ -2,9 +2,8 @@
 import { GISCUS } from '../consts';
 
 // Custom theme (public/giscus-theme.css) left-aligns reactions. Giscus only accepts
-// https theme URLs, so the http dev server falls back to the stock theme.
-const themeUrl = new URL('/giscus-theme.css', Astro.url);
-const theme = themeUrl.protocol === 'https:' ? themeUrl.href : 'preferred_color_scheme';
+// https theme URLs, so it is always loaded from the deployed site, even in dev.
+const theme = new URL('/giscus-theme.css', Astro.site).href;
 ---
 
 {
