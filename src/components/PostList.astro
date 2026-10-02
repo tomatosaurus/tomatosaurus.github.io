@@ -20,6 +20,9 @@ const { posts } = Astro.props;
 					<CategoryTrail path={post.data.category} />
 					<span>·</span>
 					<FormattedDate date={post.data.pubDate} />
+					<span data-view-count={postUrl(post)} hidden>
+						· <span class="count" /> views
+					</span>
 					{post.data.draft && <span class="draft">draft</span>}
 				</div>
 				<h3>

@@ -3,6 +3,7 @@ import type { ComponentProps } from 'astro/types';
 import BaseHead from '../components/BaseHead.astro';
 import CategoryNav from '../components/CategoryNav.astro';
 import Footer from '../components/Footer.astro';
+import ViewCounter from '../components/ViewCounter.astro';
 import Header from '../components/Header.astro';
 import TagFilter from '../components/TagFilter.astro';
 import type { Post } from '../lib/posts';
@@ -28,6 +29,7 @@ const { sidebar, ...head } = Astro.props;
 	</head>
 	<body>
 		<Header />
+		<slot name="below-header" />
 		<div class:list={['container', 'layout', { 'has-sidebar': sidebar }]}>
 			<main>
 				<slot />
@@ -46,6 +48,7 @@ const { sidebar, ...head } = Astro.props;
 			}
 		</div>
 		<Footer />
+		<ViewCounter />
 	</body>
 </html>
 <style>

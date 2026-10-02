@@ -1,0 +1,36 @@
+---
+// Records the page view with GoatCounter, then fills every
+// `[data-view-count]` element with its count. The attribute value is the path
+// to look up (`TOTAL` for the whole site); empty means the current page.
+// Add `data-view-since="today"` to count only today's visitors.
+// Elements stay hidden until a count arrives, so nothing shows if the
+// service is blocked, down, or has no visits yet.
+import { GOATCOUNTER } from '../consts';
+
+const endpoint = GOATCOUNTER && `https://${GOATCOUNTER}.goatcounter.com`;
+---
+
+{
+	endpoint && (
+		<>
+			<script is:inline data-goatcounter={`${endpoint}/count`} async src="https://gc.zgo.at/count.js" />
+			<script is:inline define:vars={{ endpoint }}>
+				document.querySelectorAll('[data-view-count]').forEach(async (el) => {
+					const path = el.dataset.viewCount || location.pathname;
+					const url = new URL(`${endpoint}/counter/${encodeURIComponent(path)}.json`);
+					if (el.dataset.viewSince === 'today') {
+						url.searchParams.set('start', new Date().toLocaleDateString('sv')); // YYYY-MM-DD
+					}
+					try {
+						const res = await fetch(url);
+						// 404 means no visits recorded for that path/period yet
+						if (!res.ok && res.status !== 404) return;
+						const { count } = res.ok ? await res.json() : { count: '0' };
+						el.querySelector('.count').textContent = count;
+						el.hidden = false;
+					} catch {}
+				});
+			</script>
+		</>
+	)
+}

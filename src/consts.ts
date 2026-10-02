@@ -20,3 +20,9 @@ export const GISCUS = {
 	mapping: 'pathname',
 	lang: 'en',
 } as const;
+
+// GoatCounter visitor stats — sign up at https://www.goatcounter.com with this code,
+// then enable Settings → "Allow adding visitor counts on your website".
+// Site-wide total shows in the footer, per-post count next to the post date.
+// Leave empty to disable tracking and hide the counters.
+export const GOATCOUNTER = 'tomatosaurus';
