@@ -5,8 +5,7 @@
 export const SITE_URL = 'https://tomatosaurus.github.io';
 
 export const SITE_TITLE = 'Tomato AI Cuisine';
-export const SITE_DESCRIPTION =
-	'Practical troubleshooting, machine learning and cloud infrastructure notes from production.';
+export const SITE_DESCRIPTION = 'FDE @ Google. Study & Solve real-world problems.';
 export const AUTHOR_NAME = 'TomatoSaurus';
 export const AUTHOR_GITHUB = 'https://github.com/tomatosaurus';
 
