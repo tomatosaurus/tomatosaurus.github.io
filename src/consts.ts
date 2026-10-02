@@ -23,6 +23,7 @@ export const GISCUS = {
 
 // GoatCounter visitor stats — sign up at https://www.goatcounter.com with this code,
 // then enable Settings → "Allow adding visitor counts on your website".
-// Site-wide total shows in the footer, per-post count next to the post date.
+// Total and today's visitors show under the header on the main page; per-post views
+// show in post lists and on each post.
 // Leave empty to disable tracking and hide the counters.
 export const GOATCOUNTER = 'tomatosaurus';
