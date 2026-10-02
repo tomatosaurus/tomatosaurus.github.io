@@ -1,5 +1,10 @@
 ---
 import { GISCUS } from '../consts';
+
+// Custom theme (public/giscus-theme.css) left-aligns reactions. Giscus only accepts
+// https theme URLs, so the http dev server falls back to the stock theme.
+const themeUrl = new URL('/giscus-theme.css', Astro.url);
+const theme = themeUrl.protocol === 'https:' ? themeUrl.href : 'preferred_color_scheme';
 ---
 
 {
@@ -17,7 +22,7 @@ import { GISCUS } from '../consts';
 				data-reactions-enabled="1"
 				data-emit-metadata="0"
 				data-input-position="top"
-				data-theme="preferred_color_scheme"
+				data-theme={theme}
 				data-lang={GISCUS.lang}
 				data-loading="lazy"
 				crossorigin="anonymous"

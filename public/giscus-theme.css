@@ -1,0 +1,11 @@
+/* Giscus custom theme: default light/dark scheme with left-aligned reactions. */
+@import url('https://giscus.app/themes/preferred_color_scheme.css');
+
+/* Giscus scopes its utility classes under #__next, so match that specificity. */
+#__next .gsc-reactions .gsc-reactions-count {
+	text-align: left;
+}
+
+#__next .gsc-reactions > div {
+	justify-content: flex-start;
+}
