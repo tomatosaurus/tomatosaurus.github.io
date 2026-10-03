@@ -15,7 +15,7 @@ I hope this post would be helpful for expats, particularly for fellow Googlers, 
 
 Every Singaporean here says, “Everythiing in Singapore is great, except for the weather”. However, for expats, there is one more catch: the notoriously high rent.
 
-I used PropertyGuru for my search. Once you find a unit you like, you should contact the agent. On property, You can easily do this by clicking the red ‘Call' icon. PropertyGuru automatically shares your enqury details with agents, while giving you their direct contact info. ![](/uploads/KakaoTalk_Photo_2026-10-03-13-24-04-002.jpeg "150")![](/uploads/KakaoTalk_Photo_2026-10-03-13-24-03-001.jpeg)
+I used PropertyGuru for my search. Once you find a unit you like, you should contact the agent. On property, You can easily do this by clicking the red ‘Call' icon. PropertyGuru automatically shares your enqury details with agents, while giving you their direct contact info. ![](/uploads/KakaoTalk_Photo_2026-10-03-13-24-04-002.jpeg "150")![](/uploads/KakaoTalk_Photo_2026-10-03-13-24-03-001.jpeg "150")
 
 ### Viewing
 
