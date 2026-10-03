@@ -1,6 +1,6 @@
 ---
 title: Setting into Singapore & D-1 on Google! (싱가폴 생활 적응 & 구글 D-1 체험)
-description: ''
+description: House hunting in Singapore for relocation. One working day before official start date at Google..
 pubDate: 2026-10-03T01:34:52.099Z
 category: blog/google
 tags: []
