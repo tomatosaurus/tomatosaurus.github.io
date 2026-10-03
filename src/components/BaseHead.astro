@@ -4,7 +4,7 @@
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
-import { AUTHOR_NAME, SITE_TITLE } from '../consts';
+import { AUTHOR_NAME, SITE_TITLE, GOOGLE_SITE_VERIFICATION } from '../consts';
 import { Font } from 'astro:assets';
 
 interface Props {
@@ -64,6 +64,7 @@ const jsonLd = article && {
 <title>{pageTitle}</title>
 <meta name="description" content={description} />
 <meta name="author" content={AUTHOR_NAME} />
+<meta name="google-site-verification" content={GOOGLE_SITE_VERIFICATION} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={article ? 'article' : 'website'} />

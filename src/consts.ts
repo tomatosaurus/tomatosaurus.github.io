@@ -8,6 +8,8 @@ export const SITE_TITLE = 'Tomato AI Cuisine';
 export const SITE_DESCRIPTION = 'FDE @ Google. Study & Solve real-world problems.';
 export const AUTHOR_NAME = 'TomatoSaurus';
 export const AUTHOR_GITHUB = 'https://github.com/tomatosaurus';
+// Google Search Console ownership check (URL-prefix property, HTML tag method)
+export const GOOGLE_SITE_VERIFICATION = 'RxfXa-a9eUp5IjrlmNYNIqieEG9Pefirc54LJi7clKE';
 export const AUTHOR_LINKEDIN = 'https://www.linkedin.com/in/jhpark9701/';
 
 // Giscus comments — generate these values at https://giscus.app
