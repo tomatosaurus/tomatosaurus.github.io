@@ -28,7 +28,7 @@ const { posts } = Astro.props;
 				<h3>
 					<a href={postUrl(post)}>{post.data.title}</a>
 				</h3>
-				<p class="description">{post.data.description}</p>
+				{post.data.description && <p class="description">{post.data.description}</p>}
 				<TagList tab={tabOf(post.data.category)} tags={post.data.tags} />
 			</li>
 		))

@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { tabOf } from '../categories';
+import { SITE_DESCRIPTION } from '../consts';
 import CategoryTrail from '../components/CategoryTrail.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Giscus from '../components/Giscus.astro';
@@ -17,7 +18,7 @@ const tab = tabOf(category);
 
 <Page
 	title={title}
-	description={description}
+	description={description ?? SITE_DESCRIPTION}
 	image={heroImage}
 	article={{ pubDate, updatedDate, tags }}
 	wide
@@ -47,7 +48,7 @@ const tab = tabOf(category);
 						<span class="count"></span> views
 					</div>
 				</div>
-				<p class="lead">{description}</p>
+				{description && <p class="lead">{description}</p>}
 			</div>
 		</header>
 		<div class="prose">

@@ -133,8 +133,8 @@ export default defineConfig({
 					{
 						type: 'string',
 						name: 'description',
-						label: 'Description (SEO meta, ~150 chars)',
-						required: true,
+						label: 'Description (SEO meta, ~150 chars, optional)',
+						required: false,
 						ui: { component: 'textarea' },
 					},
 					{ type: 'datetime', name: 'pubDate', label: 'Publish date', required: true },
