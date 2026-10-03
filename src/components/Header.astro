@@ -7,7 +7,10 @@ import HeaderLink from './HeaderLink.astro';
 <header>
 	<nav class="container">
 		<a class="site-title" href="/">{SITE_TITLE}</a>
-		<div class="tabs">
+		<button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-tabs">
+			<span></span><span></span><span></span>
+		</button>
+		<div class="tabs" id="site-tabs">
 			{CATEGORIES.map((tab) => <HeaderLink href={`/${tab.slug}/`}>{tab.label}</HeaderLink>)}
 			<HeaderLink href="/contact/">Contact</HeaderLink>
 			<!-- GitHub sign-in for Giscus comments; href and label are set by the script below -->
@@ -33,6 +36,24 @@ import HeaderLink from './HeaderLink.astro';
 		history.replaceState(history.state, '', url);
 	}
 
+	// Mobile hamburger: toggles the tab list open/closed
+	const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+	const tabs = document.getElementById('site-tabs');
+	if (toggle && tabs) {
+		const setOpen = (open: boolean) => {
+			toggle.setAttribute('aria-expanded', String(open));
+			toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+			tabs.classList.toggle('open', open);
+		};
+		toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape') setOpen(false);
+		});
+		document.addEventListener('click', (e) => {
+			if (!(e.target as Element).closest('header')) setOpen(false);
+		});
+	}
+
 	const link = document.querySelector<HTMLAnchorElement>('[data-giscus-login]');
 	if (link) {
 		if (localStorage.getItem(KEY)) {
@@ -51,6 +72,8 @@ import HeaderLink from './HeaderLink.astro';
 </script>
 <style>
 	header {
+		position: relative;
+		z-index: 10;
 		background: white;
 		box-shadow: 0 2px 8px rgba(var(--black), 5%);
 	}
@@ -100,9 +123,65 @@ import HeaderLink from './HeaderLink.astro';
 		border-bottom-color: var(--accent);
 		color: var(--accent);
 	}
-	@media (max-width: 480px) {
+	.menu-toggle {
+		display: none;
+	}
+	@media (max-width: 640px) {
+		.menu-toggle {
+			display: inline-flex;
+			flex-direction: column;
+			justify-content: center;
+			gap: 5px;
+			width: 40px;
+			height: 40px;
+			padding: 0 9px;
+			border: 0;
+			background: none;
+			cursor: pointer;
+		}
+		.menu-toggle span {
+			display: block;
+			height: 2px;
+			border-radius: 2px;
+			background: rgb(var(--black));
+			transition: transform 0.2s ease, opacity 0.2s ease;
+		}
+		.menu-toggle[aria-expanded='true'] span:nth-child(1) {
+			transform: translateY(7px) rotate(45deg);
+		}
+		.menu-toggle[aria-expanded='true'] span:nth-child(2) {
+			opacity: 0;
+		}
+		.menu-toggle[aria-expanded='true'] span:nth-child(3) {
+			transform: translateY(-7px) rotate(-45deg);
+		}
 		.tabs {
-			gap: 0.9em;
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			flex-direction: column;
+			gap: 0;
+			padding: 0.5em 0 1em;
+			padding-inline: inherit; /* line up with the site title */
+			background: white;
+			box-shadow: 0 8px 12px rgba(var(--black), 8%);
+		}
+		.tabs.open {
+			display: flex;
+		}
+		.tabs :global(a) {
+			padding: 0.9em 0;
+			border-bottom: 1px solid rgb(var(--gray-light));
+		}
+		.tabs :global(a.active) {
+			border-bottom-color: rgb(var(--gray-light));
+			text-decoration: none;
+		}
+		.tabs .login {
+			align-self: flex-start;
+			margin-top: 0.9em;
 		}
 	}
 </style>
