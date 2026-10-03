@@ -4,7 +4,7 @@ description: ''
 pubDate: 2026-10-03T01:34:52.099Z
 category: blog/google
 tags: []
-draft: true
+draft: false
 ---
 
 한국에서 싱가폴로 넘어오시는 분들, 특히 구글 싱가폴로 넘어오시는 분들에게 많은 도움이 되었으면 합니다.
