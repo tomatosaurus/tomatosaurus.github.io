@@ -187,4 +187,12 @@ const tab = tabOf(category);
 	.prose :global(hr) {
 		margin: 2em 0;
 	}
+	/* Images: centered rows with a small gap around each (src/lib/image-size.ts) */
+	.prose :global(p.images) {
+		text-align: center;
+	}
+	.prose :global(img) {
+		margin: 0.5em 0.25em;
+		vertical-align: middle;
+	}
 </style>
