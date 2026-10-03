@@ -1,9 +1,11 @@
 // @ts-check
 
+import { satteri } from '@astrojs/markdown-satteri';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
 import { SITE_URL } from './src/consts.ts';
+import { imageSizePlugin } from './src/lib/image-size.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,6 +18,8 @@ export default defineConfig({
 		inlineStylesheets: 'always',
 	},
 	markdown: {
+		// Image width from the caption, e.g. "300" or "50%" (src/lib/image-size.ts)
+		processor: satteri({ hastPlugins: [imageSizePlugin] }),
 		shikiConfig: {
 			themes: { light: 'github-light', dark: 'github-dark' },
 		},
