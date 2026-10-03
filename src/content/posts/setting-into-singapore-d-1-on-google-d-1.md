@@ -1,6 +1,6 @@
 ---
 title: Setting into Singapore & D-1 on Google! (싱가폴 생활 적응 & 구글 D-1 체험)
-description: '-'
+description: ''
 pubDate: 2026-10-03T01:34:52.099Z
 category: blog/google
 tags: []
@@ -19,7 +19,7 @@ I used PropertyGuru for my search. Once you find a unit you like, you should con
 
 ### Viewing
 
-the Agents will kindly assist you. Agents will assess if your profile matches the landlord's requirements. If it's a good fit, or if you can consider a stretch, You can request viewing, and the agent will coordinate the schedules for you if possible. 
+the Agents will kindly assist you. Agents will assess if your profile matches the landlord's requirements. If it's a good fit, or if you can consider a stretch, You can request viewing, and the agent will coordinate the schedules for you if possible.
 
 **Important** : I highly recommend viewing  properties directly with the agent who posted the listing. In Singapore, the landlords covers the commission if you deal directly with the landlord's agent, who post the listing on PropertyGuru. However, If you ask an agent to help viewing another units in the same development just for convenience, you are essentially hiring them as your own agent! In that case, you will have to pay for the agent, as you hire him to coordinate those extra viewings.
 
@@ -48,7 +48,7 @@ I have not moved in yet. I'll post it later, maybe right after my move-in day.
 
 # D-1 Offsite Event @ Google Singapore
 
-Actually, the majority of my team is based in Korea. I am one of the first two members to be based in Singapore as a Korean FDE team. I will share the actual team name and other details after I officially join Google. 
+Actually, the majority of my team is based in Korea. I am one of the first two members to be based in Singapore as a Korean FDE team. I will share the actual team name and other details after I officially join Google.
 
 During the event, I have met the FDEs, CEs and OCEs from other teams of all over the world like Australia, China, India… I even met senior managers and VP of GoogleCloud, Moe Abdula! See this youtube: [https://www.youtube.com/watch?v=wCYCYfNNGUM\&t=351s](https://www.youtube.com/watch?v=wCYCYfNNGUM\&t=351s)
 
