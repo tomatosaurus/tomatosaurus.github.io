@@ -37,6 +37,15 @@ const jsonLd = article && {
 	mainEntityOfPage: canonicalURL.href,
 	keywords: article.tags.join(', '),
 };
+
+// Home page only: tells Google the site name to show in search results
+const siteJsonLd = Astro.url.pathname === '/' && {
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	name: SITE_TITLE,
+	alternateName: ['TomatoSaurus', 'tomatosaurus.github.io'],
+	url: new URL('/', Astro.site).href,
+};
 ---
 
 <!-- Global Metadata -->
@@ -93,4 +102,5 @@ const jsonLd = article && {
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageURL} />
 
+{siteJsonLd && <script type="application/ld+json" set:html={JSON.stringify(siteJsonLd)} />}
 {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
