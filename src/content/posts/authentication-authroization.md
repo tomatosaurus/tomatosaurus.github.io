@@ -2,6 +2,7 @@
 title: Authentication • Authroization • IAM
 description: Core Concepts and Practical Skills of Authentication & Authorization
 pubDate: 2026-10-09T05:31:07.081Z
+category: study
 tags: []
 draft: true
 ---
@@ -96,6 +97,28 @@ sequenceDiagram
     Consumer->>Provider: Request API Resource (Signed with Access Token & Secret)
     Provider-->>Consumer: Protected Resource / Data
 ```
+
+\<details>
+
+\<summary> view message flow \</summary>
+
+* Obtain a Request Token (Steps 1-2):
+  * The Consumer initiates the flow by asking the Service Provider for a temporary "Request Token".
+  * This request is cryptographically signed using the Consumer's API Key and Secret.
+  * The Service Provider validates the signature and replies with an unauthorized Request Token and a Token Secret.
+* User Authorization (Steps 3-6):
+  * The Consumer redirects the User's browser to the Service Provider's authorization page, passing the Request Token in the URL.
+  * The User logs in to the Service Provider and explicitly grants the Consumer permission to access their data.
+  * Once approved, the Service Provider redirects the User back to the Consumer using a pre-registered callback URL. This redirect includes an oauth\_verifier code (a security measure introduced in OAuth 1.0a to prevent session fixation attacks).
+* Obtain an Access Token (Steps 7-8):
+  * The Consumer asks the Service Provider to exchange the authorized Request Token for a permanent "Access Token".
+  * This request is signed and must include the oauth\_verifier obtained in the previous step.
+  * The Service Provider validates the request and issues the final Access Token and Access Token Secret. The Request Token is now invalidated.
+* Access Protected Resources (Steps 9-10):
+  * The Consumer can now make standard API calls on behalf of the User.
+  * Every request to the Service Provider is signed using the Access Token and the Access Token Secret to prove authorization.
+
+\</details>
 
 * It is extremely secure. Even if the request is intercepted on an unencrypted network like HTTP, the attacker cannot alter or replay the request. However, Implementing the cryptography correctly was notoriously difficult. Also, OAuth 1.0 protocol is unfriendly to mobile
 * OAuth 2.0
