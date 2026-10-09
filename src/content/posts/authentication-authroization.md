@@ -3,7 +3,13 @@ title: Authentication • Authroization • IAM
 description: Core Concepts and Practical Skills of Authentication & Authorization
 pubDate: 2026-10-09T05:31:07.081Z
 category: study
-tags: []
+tags:
+  - OAuth 1.0
+  - OAuth 2.0
+  - Authorization
+  - Authentication
+  - Security
+  - IAM
 draft: true
 ---
 
@@ -69,8 +75,6 @@ communication rules systems uses to securely transmit, verify, and share that ev
 technical protocol - a standarized way for computers to talk to each other over the network.
 
 #### OAuth 1.0
-
-*
 
 ```mermaid
 sequenceDiagram
