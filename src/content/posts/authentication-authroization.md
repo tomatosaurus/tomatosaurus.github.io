@@ -68,9 +68,9 @@ communication rules systems uses to securely transmit, verify, and share that ev
 
 technical protocol - a standarized way for computers to talk to each other over the network.
 
-* OAuth 1.0
-  * In the early days of Web2.0, If user wanted to sign up for new app, users had to type actual Google password directly into the app.
-  * OAuth 1.0 allow users to grant third-party apps access to their data without handing over their password. It relies on rigorous cryptographic signing. If the user wants to access The client application and the authorization server share a secret key. For every single API request the client makes, it must use the secret key to generate a complex signature.
+#### OAuth 1.0
+
+*
 
 ```mermaid
 sequenceDiagram
@@ -120,26 +120,91 @@ sequenceDiagram
 
 \</details>
 
+* In the early days of Web2.0, If user wanted to sign up for new app, users had to type actual Google password directly into the app.
+* OAuth 1.0 allow users to grant third-party apps access to their data without handing over their password. It relies on rigorous cryptographic signing. If the user wants to access The client application and the authorization server share a secret key. For every single API request the client makes, it must use the secret key to generate a complex signature.
 * It is extremely secure. Even if the request is intercepted on an unencrypted network like HTTP, the attacker cannot alter or replay the request. However, Implementing the cryptography correctly was notoriously difficult. Also, OAuth 1.0 protocol is unfriendly to mobile
-* OAuth 2.0
-  * The smartphone revolution. Mobile apps and SPAs could not safely store the “client secret”.
-  * Throws out cryptographic signing in favor of Bearer Tokens. Once a user authenticates and grants permission, the application is handed a token. To access data, the app simply presents this token in the HTTP header like a hotel keycard. Because the token is sent in plain text, OAuth 2.0 mandates that all traffic must be encrypted over HTTPS(TLS).
-    * The client redirects the user's browser to the Authorization server. It simply passes its `client_id` and a `redirect_url` in a plain text
-    * The user logs in and clicks “Allow”
-    * The Authorization server redirects the user back to the Client's `redirect_url`, attaching a short-lived Authorization Code to the URL.
-    * The client's backend server takes that Authorization code and makes a direct, hidden server-to-server request to the Authorization Server.
-      * It sends the Code, its `client_id`, and its highly secure `client_secret`
-    * The Authorization Server verifies the secret and the code, and returns a Bearer Access Token.
-    * To access the data, the Client does zero cryptography. It simply places the token into HTTP header of a standard REST API call. `Authorization: Bearer <The_Access_Token>`
+
+#### OAuth 2.0
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Resource Owner
+    participant Client as Client Application
+    participant AuthServer as Authorization Server
+    participant ResourceServer as Resource Server
+
+    Note over Client,AuthServer: Phase 1: User Authorization (Front-Channel)
+    Client->>User: Redirect to Authorization Server URL
+    User->>AuthServer: User Authenticates and Approves Access
+    AuthServer-->>User: Redirect to Client Callback URL (with Auth Code)
+    User->>Client: Follow Callback Redirect (passes Auth Code to Client)
+
+    Note over Client,AuthServer: Phase 2: Token Exchange (Back-Channel)
+    Client->>AuthServer: Request Token (Sends Auth Code + Client ID/Secret)
+    AuthServer-->>Client: Access Token (& optionally Refresh Token)
+
+    Note over Client,ResourceServer: Phase 3: Access Protected Resources
+    Client->>ResourceServer: Request API Resource (with Bearer Access Token)
+    ResourceServer-->>Client: Protected Resource / Data
+```
+
+\<details>
+
+\<summary> brief explanation of the message flow \</summary>
+
+Unlike OAuth 1.0, OAuth 2.0 relies entirely on HTTPS/TLS for encryption rather than requiring the client to cryptographically sign every request. It also explicitly separates the Authorization Server (which handles logins and issues tokens) from the Resource Server (which holds the data).
+
+* User Authorization (Steps 1-4):
+  * The flow starts when the Client redirects the User's browser to the Authorization Server.
+  * The User logs in and reviews the permissions requested by the Client (the consent screen).
+  * Once approved, the Authorization Server redirects the User back to the Client using a pre-registered callback URI. Appended to this URI is a short-lived Authorization Code.
+  * Security Note: Passing a temporary code through the browser (front-channel) instead of the actual token prevents malicious scripts or browser extensions from stealing the permanent Access Token.
+* Token Exchange (Steps 5-6):
+  * The Client takes the Authorization Code it just received and makes a secure, server-to-server (back-channel) request directly to the Authorization Server.
+  * In this request, the Client authenticates itself using its Client ID and Client Secret, proving it is the legitimate application.
+  * The Authorization Server validates the code and the client's identity, and then responds with the final Access Token (and often a Refresh Token, which can be used to get new access tokens when the current one expires).
+* Access Protected Resources (Steps 7-8):
+  * The Client can now access the User's data.
+  * To make an API call, the Client simply includes the Access Token in the HTTP request (typically in the Authorization: Bearer \<token> header).
+  * The Resource Server validates the token and returns the requested data.
+
+\</details>
+
+* The smartphone revolution. Mobile apps and SPAs could not safely store the “client secret”.
+* Throws out cryptographic signing in favor of Bearer Tokens. Once a user authenticates and grants permission, the application is handed a token. To access data, the app simply presents this token in the HTTP header like a hotel keycard. Because the token is sent in plain text, OAuth 2.0 mandates that all traffic must be encrypted over HTTPS(TLS).
+  * The client redirects the user's browser to the Authorization server. It simply passes its `client_id` and a `redirect_url` in a plain text
+  * The user logs in and clicks “Allow”
+  * The Authorization server redirects the user back to the Client's `redirect_url`, attaching a short-lived Authorization Code to the URL.
+  * The client's backend server takes that Authorization code and makes a direct, hidden server-to-server request to the Authorization Server.
+    * It sends the Code, its `client_id`, and its highly secure `client_secret`
+  * The Authorization Server verifies the secret and the code, and returns a Bearer Access Token.
+  * To access the data, the Client does zero cryptography. It simply places the token into HTTP header of a standard REST API call. `Authorization: Bearer <The_Access_Token>`
 * Easy to implement and highly flexible. OAuth 2.0 introduces “grant types” tailored for different environments. However, OAuth 2.0 totally relies on HTTPS, and the flexibility causes the complexity.
 
 ## IAM
 
-IAM, Identity and Access Management.
+IAM, Identity and Access Management. Ensure that the **right people** have the **right right** to the **right resources** at the **right time**.
 
-\
-4 Pillars of IAM
+```mermaid
+graph LR
+    Principal["👤 Principal<br>(Who)"] -->|Requests Access| Policy["🛡️ IAM Policy<br>(Rules)"]
+    Policy -->|Grants Role / Permission| Action["⚙️ Action<br>(What)"]
+    Action -->|Performed on| Resource["📁 Resource<br>(Where)"]
+    
+    style Principal fill:#d4e6f1,stroke:#2874a6,stroke-width:2px
+    style Policy fill:#fcf3cf,stroke:#b7950b,stroke-width:2px
+    style Action fill:#d5f5e3,stroke:#239b56,stroke-width:2px
+    style Resource fill:#fadbd8,stroke:#b03a2e,stroke-width:2px
 
-* Identity Management
-* Authentication / AuthN
-* Authorization / AuthZ
+```
+
+* IAM appears with the rise of Cloud computing like AWS, GCP, and Azure. Historically, companies used a “castle-and-moat” security system that trust users is in the office physically, and in the corporate network. However, the rise of cloud computing, mobile devices, and remote works dissolved this physical perimeter. Identity became the new perimeter.
+  * +) The shift to the “Zero trust”. Services never trust an user or a device by default, even if they already have access to their network.
+* IAM operates by centralizing the management of identities and enforcing access policies across an organization's resources.
+  * Provisioning (Creation) : When a new employee joins(or a new service/app is deployed), an admin creates a digital identity for them in the IAM system.
+  * Authentication (AuthN) : When the user tries to access a system, the IAM provider verifies they are who they claim to be. This is typically done using credentials like a password, combined with MFA.
+  * Authorization (AuthZ) : Once logged in, the user requests access to a specific resource(e.g. a db or a doc.). The IAM system evaluates this request against predefined **Policies** via RBAC or ABAC.
+  * Auditing and Logging 
+  * Deprovisioning (Revocation) : When an employee leaves, their central IAM identity is disabled, which instantly revokes their access across all connected applications and systems.
+* IAM provides enhanced security, improved user experience, and operational efficiency. Through a SSO(Single Sign-on), employees only need to log in once and their IAM portal manages all permissions. However, IAM system has high complexity, Management Overhead and Single point of failure.
