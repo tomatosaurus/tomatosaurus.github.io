@@ -10,7 +10,7 @@ tags:
   - Authentication
   - Security
   - IAM
-draft: true
+draft: false
 ---
 
 **Authentication** -> **Identity** an user
@@ -209,6 +209,6 @@ graph LR
   * Provisioning (Creation) : When a new employee joins(or a new service/app is deployed), an admin creates a digital identity for them in the IAM system.
   * Authentication (AuthN) : When the user tries to access a system, the IAM provider verifies they are who they claim to be. This is typically done using credentials like a password, combined with MFA.
   * Authorization (AuthZ) : Once logged in, the user requests access to a specific resource(e.g. a db or a doc.). The IAM system evaluates this request against predefined **Policies** via RBAC or ABAC.
-  * Auditing and Logging 
+  * Auditing and Logging
   * Deprovisioning (Revocation) : When an employee leaves, their central IAM identity is disabled, which instantly revokes their access across all connected applications and systems.
 * IAM provides enhanced security, improved user experience, and operational efficiency. Through a SSO(Single Sign-on), employees only need to log in once and their IAM portal manages all permissions. However, IAM system has high complexity, Management Overhead and Single point of failure.
