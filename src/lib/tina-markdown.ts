@@ -71,6 +71,18 @@ const copy = <T extends Node>(node: T): T =>
 			.map(([key, value]) => [key, key === 'children' ? (value as Node[]).map(copy) : value]),
 	) as T;
 
+// Mermaid diagrams: ```mermaid blocks skip syntax highlighting and become <pre class="mermaid">,
+// which the post layout renders in the browser. Runs after list-code so diagrams nest in lists too.
+const escapeHtml = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+export const mermaidPlugin = {
+	name: 'mermaid',
+	code(node) {
+		if (node.lang !== 'mermaid') return;
+		return { type: 'html', value: `<pre class="mermaid">${escapeHtml(node.value)}</pre>` };
+	},
+} satisfies MdastPlugin;
+
 export const listCodePlugin = {
 	name: 'list-code',
 	before(root, ctx) {

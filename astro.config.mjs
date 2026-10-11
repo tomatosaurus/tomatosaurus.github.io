@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
 import { SITE_URL } from './src/consts.ts';
 import { imageRowPlugin, imageSizePlugin } from './src/lib/image-size.ts';
-import { detailsPlugin, listCodePlugin } from './src/lib/tina-markdown.ts';
+import { detailsPlugin, listCodePlugin, mermaidPlugin } from './src/lib/tina-markdown.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,9 +20,10 @@ export default defineConfig({
 	},
 	markdown: {
 		// Image width from the caption, e.g. "300" or "50%", and centered image rows (src/lib/image-size.ts).
-		// <details> blocks and code blocks inside lists, which the Tina editor can't write (src/lib/tina-markdown.ts)
+		// <details> blocks and code blocks inside lists, which the Tina editor can't write, and
+		// Mermaid diagrams (src/lib/tina-markdown.ts)
 		processor: satteri({
-			mdastPlugins: [detailsPlugin, listCodePlugin],
+			mdastPlugins: [detailsPlugin, listCodePlugin, mermaidPlugin],
 			hastPlugins: [imageSizePlugin, imageRowPlugin],
 		}),
 		shikiConfig: {

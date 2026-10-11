@@ -64,6 +64,15 @@ const tab = tabOf(category);
 		<Giscus />
 	</article>
 </Page>
+<script>
+	// Mermaid is large, so it loads only on posts that have a diagram (src/lib/tina-markdown.ts)
+	if (document.querySelector('pre.mermaid')) {
+		import('mermaid').then(({ default: mermaid }) => {
+			mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
+			return mermaid.run({ querySelector: 'pre.mermaid' });
+		});
+	}
+</script>
 <style>
 	.hero-image img {
 		display: block;
@@ -176,6 +185,16 @@ const tab = tabOf(category);
 		background-color: #f8f6f0 !important;
 		font-size: 0.85em;
 		line-height: 1.6;
+	}
+	/* Mermaid diagrams: centered, no code-block frame once rendered */
+	.prose :global(pre.mermaid) {
+		overflow-x: auto;
+		text-align: center;
+	}
+	.prose :global(pre.mermaid[data-processed]) {
+		border: 0;
+		background-color: transparent !important;
+		font-size: 1em;
 	}
 	.prose :global(blockquote) {
 		margin: 0 0 1em;
