@@ -1,14 +1,14 @@
 ---
 import PostList from '../components/PostList.astro';
 import SiteStats from '../components/SiteStats.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { AUTHOR_NAME, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import Page from '../layouts/Page.astro';
 import { getPosts } from '../lib/posts';
 
 const recent = (await getPosts()).slice(0, 5);
 ---
 
-<Page title={SITE_TITLE} description={SITE_DESCRIPTION} wide>
+<Page title={SITE_TITLE} description={`${SITE_TITLE} by ${AUTHOR_NAME}. ${SITE_DESCRIPTION}`} wide>
 	<section class="intro">
 		<div class="title-row">
 			<h1>{SITE_TITLE}</h1>
