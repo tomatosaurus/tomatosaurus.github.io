@@ -6,6 +6,7 @@ import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
 import { SITE_URL } from './src/consts.ts';
 import { imageRowPlugin, imageSizePlugin } from './src/lib/image-size.ts';
+import { detailsPlugin, listCodePlugin } from './src/lib/tina-markdown.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,8 +19,12 @@ export default defineConfig({
 		inlineStylesheets: 'always',
 	},
 	markdown: {
-		// Image width from the caption, e.g. "300" or "50%", and centered image rows (src/lib/image-size.ts)
-		processor: satteri({ hastPlugins: [imageSizePlugin, imageRowPlugin] }),
+		// Image width from the caption, e.g. "300" or "50%", and centered image rows (src/lib/image-size.ts).
+		// <details> blocks and code blocks inside lists, which the Tina editor can't write (src/lib/tina-markdown.ts)
+		processor: satteri({
+			mdastPlugins: [detailsPlugin, listCodePlugin],
+			hastPlugins: [imageSizePlugin, imageRowPlugin],
+		}),
 		shikiConfig: {
 			themes: { light: 'github-light', dark: 'github-dark' },
 		},

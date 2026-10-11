@@ -149,10 +149,14 @@ export default defineConfig({
 						// category edit fail the Tina Cloud schema check until the lock is rebuilt.
 						ui: {
 							component: categorySelect,
+							// A custom component bypasses `required`, so an empty value is caught here;
+							// the site build rejects a post without a category
 							validate: (value?: string) =>
-								value && !CATEGORY_LIST.some((c) => c.path === value)
-									? 'Unknown category — add it under Tabs & Categories first'
-									: undefined,
+								!value
+									? 'Category is required'
+									: !CATEGORY_LIST.some((c) => c.path === value)
+										? 'Unknown category — add it under Tabs & Categories first'
+										: undefined,
 						},
 					},
 					{ type: 'string', name: 'tags', label: 'Tags', list: true },
