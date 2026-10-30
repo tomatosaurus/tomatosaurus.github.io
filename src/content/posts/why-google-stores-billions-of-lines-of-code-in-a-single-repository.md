@@ -4,7 +4,7 @@ description: Do you know that Google stores most of their code in a SINGLE repos
 pubDate: 2026-10-29T15:40:52.261Z
 category: engineering
 tags: []
-draft: true
+draft: false
 ---
 
 # Why Google Stores Billions of Lines of Code In a Single Repository?
@@ -36,11 +36,11 @@ Google constructed and is utilizing their own internal infrastructures to suppor
 
 Previous paragraph covers how Google manages a huge single repo. But Why is always much more important then How. Architectural and Cultural benefits are substantial against a few side-effects.
 
-* **Single source of truth**: There is only one authoritative version of every library and service. Developers doesn't have to research tens of repositories to check the right version of each service. They only have to confirm their changes are compatible with the very code they are working at.  
+* **Single source of truth**: There is only one authoritative version of every library and service. Developers doesn't have to research tens of repositories to check the right version of each service. They only have to confirm their changes are compatible with the very code they are working at.
 * **Diamond Dependency Problem**: Developers normally have to handle complicated dependency versioning problem. For example, One of two essential libraries ‘B’ is compatible with D.1 version of ‘D’ library while the other essential library, ‘C’ is compatible with only D.2 version of ‘D’ library. In a monorepo, this problem is fundamentally resolved. everyone builds against trunk, forcing a single, unified dependency version.
   * ![](/uploads/Screenshot-2026-10-30-at-10.48.38-AM.png)
 * **Atomic Changes** : An engineer can refactor a core API and update all dependent call sites across Google's entire product suite in a single atomic commit, eliminating intermediate broken states.
-* **Code sharing** : Engineers can search and read all codes in the repository. They can easily search similar patterns, reuse proven patterns, and submit contributions across team boundaries without friction. 
+* **Code sharing** : Engineers can search and read all codes in the repository. They can easily search similar patterns, reuse proven patterns, and submit contributions across team boundaries without friction.
 
 ### Side Effects of a Single Repository
 
